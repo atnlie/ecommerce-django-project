@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<!--Main layout-->
+<main class="mt-5">
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="my-5 text-center">Checkout form</h2>
+
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-8 mb-4">
+                <!--Card-->
+                <div class="card p-4">
+                    <!--Grid row-->
+                   
+                    <!--address-->
+                    <p class="mb-0">
+                        Address
+                    </p>
+                    <div class="form-outline mb-4">
+                        <input type="email" class="form-control" placeholder="1234 Main St" aria-label="1234 Main St" aria-describedby="basic-addon1" />
+                    </div>
+
+                    <!--address-2-->
+                    <p class="mb-0">
+                        Address 2 (optional)
+                    </p>
+                    <div class="form-outline mb-4">
+                        <input type="email" class="form-control" placeholder="Apartment or suite" aria-label="Apartment or suite" aria-describedby="basic-addon1" />
+                    </div>
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mb-4">
+                            <p class="mb-0">
+                                Country
+                            </p>
+                                <div class="form-outline mb-4">
+                                <input type="email" class="form-control" placeholder="United States" aria-label="United States" aria-describedby="basic-addon1" />
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mb-4">
+                            <p class="mb-0">
+                                Zip
+                            </p>
+                            <div class="form-outline">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+                    </div>
+                    <!--Grid row-->
+
+                    <hr />
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">Save this information for next time</label>
+                    </div>
+
+                    <hr />
+
+                    <div class="my-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                            <label class="form-check-label" for="flexRadioDefault1"> Paypal </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                            <label class="form-check-label" for="flexRadioDefault2"> Stripe </label>
+                        </div>
+                    </div>
+                    <hr class="mb-4" />                    
+                  <button class="btn btn-primary" type="button">Continue to checkout</button>
+                </div>
+                <!--/.Card-->
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-4 mb-4">
+                <!-- Heading -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge rounded-pill badge-primary">3</span>
+                </h4>
+
+                <!-- Cart -->
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">Product name</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$12</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">Second product</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$8</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">Third item</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$5</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>$20</strong>
+                    </li>
+                </ul>
+                <!-- Cart -->
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+    </div>
+</main>
+<!--Main layout-->
+{% endblock content %}
