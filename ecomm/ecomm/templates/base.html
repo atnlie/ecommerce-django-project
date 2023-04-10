@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>e-commerce {% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  
+    <!-- MDB icon -->
+    <link rel="icon" href="{% static 'img/mdb-favicon.ico' %}" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/css/mdb.dark.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mdb.dark.rtl.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mdb.rtl.min.css' %}" />
+  </head>
+  <body>
+    
+    {% include 'navbar.html' %}
+ 
+
+    <div class="mt-5 pt-4">
+      {% if messages %}
+          {% for message in messages %}
+          <div class="container">
+            <div class="alert alert-{{ message.tags }} alert-dismissable">
+              <strong>{{ message }}</strong>
+            </div>
+          </div>
+          {% endfor %}
+      {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+    
+    {% include 'footer.html' %}
+  
+    {% include 'scripts.html' %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+  </body>
+</html>
