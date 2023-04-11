@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content%}
+
 <!--Main layout-->
 <main class="mt-5 pt-4">
     <div class="container mt-5">
@@ -8,7 +9,7 @@
         <div class="row">
             <!--Grid column-->
             <div class="col-md-6 mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="" />
+                <img src="{{ object.gambar.url }}" class="img-fluid" alt="" />
             </div>
             <!--Grid column-->
 
@@ -18,34 +19,49 @@
                 <div class="p-4">
                     <div class="mb-3">
                         <a href="">
-                            <span class="badge bg-dark me-1">Category 2</span>
+                            <span class="badge bg-dark me-1">{{ object.get_kategori_display }}</span>
                         </a>
+                        {% if object.label == 'NEW' %}
                         <a href="">
-                            <span class="badge bg-info me-1">New</span>
+                            <span class="badge bg-{{ object.get_label_display }} me-1">New</span>
                         </a>
+                        {% elif object.label == 'SALE' %}
                         <a href="">
-                            <span class="badge bg-danger me-1">Bestseller</span>
+                            <span class="badge bg-{{ object.get_label_display }} me-1">Sale</span>
                         </a>
+                        {% else %}
+                        <a href="">
+                            <span class="badge bg-{{ object.get_label_display }} me-1">Bestseller</span>
+                        </a>
+                        {% endif %}
                     </div>
 
                     <p class="lead">
+                        {% if object.harga_diskon %}
                         <span class="me-1">
-                            <del>$200</del>
+                            <del>${{ object.harga }}</del>
                         </span>
-                        <span>$100</span>
+                        <span>${{ object.harga_diskon }}</span>
+                        {% else %}
+                        <span>${{ object.harga }}</span>
+                        {% endif %}
                     </p>
 
-                    <strong><p style="font-size: 20px;">Description</p></strong>
+                    <strong><p style="font-size: 20px;">Deskripsi</p></strong>
 
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa sint voluptatibus! Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
+                    <p>{{ object.deskripsi }}</p>
 
                     <form class="d-flex justify-content-left">
                         <!-- Default input -->
-                        <div class="form-outline me-1" style="width: 100px;">
+                        {% comment %} <div class="form-outline me-1" style="width: 100px;">
                             <input type="number" value="1" class="form-control" />
-                        </div>
+                        </div> {% endcomment %}
                         <button class="btn btn-primary ms-1" type="submit">
-                            Add to cart
+                            Tambah ke keranjang
+                            <i class="fas fa-shopping-cart ms-1"></i>
+                        </button>
+                        <button class="btn btn-danger ms-1" type="submit">
+                            Kurangi keranjang
                             <i class="fas fa-shopping-cart ms-1"></i>
                         </button>
                     </form>

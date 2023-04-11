@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 PILIHAN_KATEGORI = (
     ('S', 'Shirt'),
@@ -6,9 +7,9 @@ PILIHAN_KATEGORI = (
     ('OW', 'Outwear')
 )
 
-LABEL_CHOICES = (
+PILIHAN_LABEL = (
     ('NEW', 'primary'),
-    ('SALE', 'secondary'),
+    ('SALE', 'info'),
     ('BEST', 'danger'),
 )
 
@@ -19,6 +20,9 @@ class ProdukItem(models.Model):
     slug = models.SlugField(unique=True)
     deskripsi = models.TextField()
     gambar = models.ImageField(upload_to='product_pics')
-    label = models.CharField(choices=LABEL_CHOICES, max_length=4)
+    label = models.CharField(choices=PILIHAN_LABEL, max_length=4)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
 
+    def get_absolute_url(self):
+        return reverse("toko:produk-detail", kwargs={"slug": self.slug})
+    
