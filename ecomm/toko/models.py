@@ -28,20 +28,27 @@ class ProdukItem(models.Model):
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
 
     def get_absolute_url(self):
-        return reverse("toko:produk-detail", kwargs={"slug": self.slug})
+        return reverse("toko:produk-detail", kwargs={
+            "slug": self.slug
+            })
+
+    def get_add_to_cart_url(self):
+        return reverse("toko:add-to-cart", kwargs={
+            "slug": self.slug
+            })
     
 class OrderProdukItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
-    produkItem = models.ForeignKey(ProdukItem, on_delete=models.CASCADE)
+    produk_item = models.ForeignKey(ProdukItem, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.produkItem.nama_produk}"
+        return f"{self.quantity} of {self.produk_item.nama_produk}"
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    produkItem = models.ManyToManyField(OrderProdukItem)
+    produk_items = models.ManyToManyField(OrderProdukItem)
     tanggal_mulai = models.DateTimeField(auto_now_add=True)
     tanggal_order = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)

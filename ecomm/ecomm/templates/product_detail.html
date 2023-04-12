@@ -50,21 +50,14 @@
                     <strong><p style="font-size: 20px;">Deskripsi</p></strong>
 
                     <p>{{ object.deskripsi }}</p>
-
-                    <form class="d-flex justify-content-left">
-                        <!-- Default input -->
-                        {% comment %} <div class="form-outline me-1" style="width: 100px;">
-                            <input type="number" value="1" class="form-control" />
-                        </div> {% endcomment %}
-                        <button class="btn btn-primary ms-1" type="submit">
-                            Tambah ke keranjang
-                            <i class="fas fa-shopping-cart ms-1"></i>
-                        </button>
-                        <button class="btn btn-danger ms-1" type="submit">
-                            Kurangi keranjang
-                            <i class="fas fa-shopping-cart ms-1"></i>
-                        </button>
-                    </form>
+                    <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary ms-1">
+                        Tambah ke keranjang
+                        <i class="fas fa-shopping-cart ms-1"></i>
+                    </a>
+                    <a href="" class="btn btn-danger ms-1" >
+                        Kurangi keranjang
+                        <i class="fas fa-shopping-cart ms-1"></i>
+                    </a>
                 </div>
                 <!--Content-->
             </div>

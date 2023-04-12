@@ -6,7 +6,7 @@ class ProdukItemAdmin(admin.ModelAdmin):
                     'deskripsi', 'gambar', 'label', 'kategori']
 
 class OrderProdukItemAdmin(admin.ModelAdmin):
-    list_display = ['user', 'ordered', 'produkItem', 'quantity']
+    list_display = ['user', 'ordered', 'produk_item', 'quantity']
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user', 'tanggal_mulai', 'tanggal_order', 'ordered']
