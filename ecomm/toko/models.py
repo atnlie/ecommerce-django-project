@@ -37,6 +37,11 @@ class ProdukItem(models.Model):
             "slug": self.slug
             })
     
+    def get_remove_from_cart_url(self):
+        return reverse("toko:remove-from-cart", kwargs={
+            "slug": self.slug
+            })
+    
 class OrderProdukItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)

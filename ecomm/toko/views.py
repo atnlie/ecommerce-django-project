@@ -44,3 +44,33 @@ def add_to_cart(request, slug):
         order.produk_items.add(order_produk_item)
         messages.info(request, 'ProdukItem pilihanmu sudah ditambahkan')
         return redirect('toko:produk-detail', slug = slug)
+
+def remove_from_cart(request, slug):
+    produk_item = get_object_or_404(ProdukItem, slug=slug)
+    order_query = Order.objects.filter(
+        user=request.user, ordered=False
+    )
+    if order_query.exists():
+        order = order_query[0]
+        if order.produk_items.filter(produk_item__slug=produk_item.slug).exists():
+           try: 
+                order_produk_item = OrderProdukItem.objects.filter(
+                    produk_item=produk_item,
+                    user=request.user,
+                    ordered=False
+                )[0]
+                
+                order.produk_items.remove(order_produk_item)
+                order_produk_item.delete()
+
+                pesan = f"ProdukItem sudah dihapus"
+                messages.info(request, pesan)
+                return redirect('toko:produk-detail',slug = slug)
+           except ObjectDoesNotExist:
+               print('Error: order ProdukItem sudah tidak ada')
+        else:
+            messages.info(request, 'ProdukItem tidak ada')
+            return redirect('toko:produk-detail',slug = slug)
+    else:
+        messages.info(request, 'ProdukItem tidak ada order yang aktif')
+        return redirect('toko:produk-detail',slug = slug)
