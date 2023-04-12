@@ -47,7 +47,7 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
         <!-- Icon -->
-        <a class="nav-link me-3" href="#">
+        <a class="nav-link me-3" href="{% url 'toko:order-summary' %}">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge rounded-pill badge-notification bg-danger">{{ request.user|total_produk_dikeranjang }}</span>
         </a>

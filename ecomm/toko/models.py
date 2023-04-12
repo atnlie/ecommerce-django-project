@@ -51,6 +51,27 @@ class OrderProdukItem(models.Model):
     def __str__(self):
         return f"{self.quantity} of {self.produk_item.nama_produk}"
 
+    def get_total_harga_item(self):
+        return self.quantity * self.produk_item.harga
+    
+    def get_total_harga_diskon_item(self):
+        return self.quantity * self.produk_item.harga_diskon
+
+    def get_total_hemat_item(self):
+        return self.get_total_harga_item() - self.get_total_harga_diskon_item()
+    
+    def get_total_item_keseluruan(self):
+        if self.produk_item.harga_diskon:
+            return self.get_total_harga_diskon_item()
+        return self.get_total_harga_item()
+    
+    def get_total_hemat_keseluruhan(self):
+        if self.produk_item.harga_diskon:
+            return self.get_total_hemat_item()
+        return 0
+
+    
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     produk_items = models.ManyToManyField(OrderProdukItem)
@@ -60,3 +81,16 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+     
+    def get_total_harga_order(self):
+        total = 0
+        for order_produk_item in self.produk_items.all():
+            total += order_produk_item.get_total_item_keseluruan()
+        return total
+    
+    def get_total_hemat_order(self):
+        total = 0
+        for order_produk_item in self.produk_items.all():
+            total += order_produk_item.get_total_hemat_keseluruhan()
+        return total

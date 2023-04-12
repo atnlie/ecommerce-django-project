@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views import generic
 
@@ -16,6 +17,19 @@ class ProductDetailView(generic.DetailView):
 
 class CheckoutView(generic.TemplateView):
     template_name = 'checkout.html'
+
+class OrderSummaryView(generic.TemplateView):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'keranjang': order
+            }
+            template_name = 'order_summary.html'
+            return render(self.request, template_name, context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, 'Tidak ada pesanan yang aktif')
+            return redirect('/')
 
 
 def add_to_cart(request, slug):
