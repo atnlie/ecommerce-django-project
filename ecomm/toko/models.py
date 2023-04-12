@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
@@ -13,6 +15,8 @@ PILIHAN_LABEL = (
     ('BEST', 'danger'),
 )
 
+User = get_user_model()
+
 class ProdukItem(models.Model):
     nama_produk = models.CharField(max_length=100)
     harga = models.FloatField()
@@ -26,3 +30,21 @@ class ProdukItem(models.Model):
     def get_absolute_url(self):
         return reverse("toko:produk-detail", kwargs={"slug": self.slug})
     
+class OrderProdukItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    produkItem = models.ForeignKey(ProdukItem, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.produkItem.nama_produk}"
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    produkItem = models.ManyToManyField(OrderProdukItem)
+    tanggal_mulai = models.DateTimeField(auto_now_add=True)
+    tanggal_order = models.DateTimeField(blank=True, null=True)
+    ordered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username

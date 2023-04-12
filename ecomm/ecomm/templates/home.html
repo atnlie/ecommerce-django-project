@@ -102,25 +102,27 @@
         <!-- End Products -->
 
         <!-- Pagination -->
+        {% if is_paginated %}
         <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
             <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item">
+                  {% if page_obj.has_previous %}
+                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
+                  {% endif %}
                 </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                  {% if page_obj.has_next %}
+                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
+                  {% endif %}
                 </li>
             </ul>
         </nav>
+        {% endif %}
         <!-- Pagination -->
     </div>
 </main>
