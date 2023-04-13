@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views import generic
 
+from .forms import CheckoutForm
 from .models import ProdukItem, OrderProdukItem, Order
 
 class HomeListView(generic.ListView):
@@ -17,7 +18,7 @@ class ProductDetailView(generic.DetailView):
 
 class CheckoutView(generic.TemplateView):
     def get(self, *args, **kwargs):
-        # form = CheckoutForm()
+        form = CheckoutForm()
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if order.produk_items.count() == 0:
@@ -29,7 +30,7 @@ class CheckoutView(generic.TemplateView):
             return redirect('toko:home-produk-list')
 
         context = {
-            # 'form': form,
+            'form': form,
             'keranjang': order,
         }
         template_name = 'checkout.html'

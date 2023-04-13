@@ -1,88 +1,97 @@
 {% extends 'base.html' %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
 
 {% block content%}
 <!--Main layout-->
 <main class="mt-5">
-    <div class="container">
+    {% comment %} <div class="container"> {% endcomment %}
         <!-- Heading -->
         <h2 class="my-5 text-center">Checkout</h2>
 
         <!--Grid row-->
         <div class="row">
-            <!--Grid column-->
-            <div class="col-md-8 mb-4">
-                <!--Card-->
-                <div class="card p-4">
-                    <!--Grid row-->
-                   
-                    <!--address-->
-                    <p class="mb-0">
-                        Address
-                    </p>
-                    <div class="form-outline mb-4">
-                        <input type="email" class="form-control" placeholder="1234 Main St" aria-label="1234 Main St" aria-describedby="basic-addon1" />
-                    </div>
+            <div>
+            <form method="POST" name="formCheckout">
+                {% csrf_token %}
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+                    <!--Card-->
+                    <div class="card p-4">
+                        <!--Grid row-->
+                    
+                        <!--address-->
+                        <p class="mb-0">
+                            Alamat
+                        </p>
+                        <div class="form-outline mb-4">
+                            <input type="email" class="form-control" placeholder="1234 Main St" aria-label="1234 Main St" aria-describedby="basic-addon1" />
+                            {% comment %} {{ form.alamat_1 }} {% endcomment %}
+                        </div>
 
-                    <!--address-2-->
-                    <p class="mb-0">
-                        Address 2 (optional)
-                    </p>
-                    <div class="form-outline mb-4">
-                        <input type="email" class="form-control" placeholder="Apartment or suite" aria-label="Apartment or suite" aria-describedby="basic-addon1" />
-                    </div>
+                        <!--address-2-->
+                        <p class="mb-0">
+                            Alamat Gedung (optional)
+                        </p>
+                        <div class="form-outline mb-4">
+                            <input type="email" class="form-control" placeholder="Apartment or suite" aria-label="Apartment or suite" aria-describedby="basic-addon1" />
+                            {% comment %} {{ form.alamat_2 }} {% endcomment %}
+                        </div>
 
-                    <!--Grid row-->
-                    <div class="row">
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mb-4">
-                            <p class="mb-0">
-                                Country
-                            </p>
-                                <div class="form-outline mb-4">
-                                <input type="email" class="form-control" placeholder="United States" aria-label="United States" aria-describedby="basic-addon1" />
+                        <!--Grid row-->
+                        <div class="row">
+                            <!--Grid column-->
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <p class="mb-0">
+                                    Negara
+                                </p>
+                                    <div class="form-outline mb-4">
+                                    <input type="email" class="form-control" placeholder="United States" aria-label="United States" aria-describedby="basic-addon1" />
+                                    {% comment %} {{ form.negara }} {% endcomment %}
+                                </div>
+                            </div>
+                            <!--Grid column-->
+
+                            <!--Grid column-->
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <p class="mb-0">
+                                    Kodepos
+                                </p>
+                                <div class="form-outline">
+                                    <input type="text" class="form-control"/>
+                                    {% comment %} {{ form.kode_pos }} {% endcomment %}
+                                </div>
+                            </div>
+                            <!--Grid column-->
+                        </div>
+                        <!--Grid row-->
+
+                        <hr />
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                            <label class="form-check-label" for="flexCheckDefault">Save this information for next time</label>
+                        </div>
+
+                        <hr />
+
+                        <div class="my-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                                <label class="form-check-label" for="flexRadioDefault1"> Paypal </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                <label class="form-check-label" for="flexRadioDefault2"> Stripe </label>
                             </div>
                         </div>
-                        <!--Grid column-->
-
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mb-4">
-                            <p class="mb-0">
-                                Zip
-                            </p>
-                            <div class="form-outline">
-                                <input type="text" class="form-control"/>
-                            </div>
-                        </div>
-                        <!--Grid column-->
+                        <hr class="mb-4" />                    
+                        <button class="btn btn-primary" type="button">Lanjutkan checkout</button>
                     </div>
-                    <!--Grid row-->
-
-                    <hr />
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <label class="form-check-label" for="flexCheckDefault">Save this information for next time</label>
-                    </div>
-
-                    <hr />
-
-                    <div class="my-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
-                            <label class="form-check-label" for="flexRadioDefault1"> Paypal </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-                            <label class="form-check-label" for="flexRadioDefault2"> Stripe </label>
-                        </div>
-                    </div>
-                    <hr class="mb-4" />                    
-                  <button class="btn btn-primary" type="button">Lanjutkan checkout</button>
+                    <!--/.Card-->
                 </div>
-                <!--/.Card-->
-            </div>
-            <!--Grid column-->
-
+                <!--Grid column-->
+            </form>
+            
             <!--Grid column-->
             <div class="col-md-4 mb-4">
                 <!-- Heading -->
@@ -117,7 +126,7 @@
             <!--Grid column-->
         </div>
         <!--Grid row-->
-    </div>
+    {% comment %} </div> {% endcomment %}
 </main>
 <!--Main layout-->
 {% endblock content %}
