@@ -5,7 +5,7 @@
 <main class="mt-5">
     <div class="container">
         <!-- Heading -->
-        <h2 class="my-5 text-center">Checkout form</h2>
+        <h2 class="my-5 text-center">Checkout</h2>
 
         <!--Grid row-->
         <div class="row">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <hr class="mb-4" />                    
-                  <button class="btn btn-primary" type="button">Continue to checkout</button>
+                  <button class="btn btn-primary" type="button">Lanjutkan checkout</button>
                 </div>
                 <!--/.Card-->
             </div>
@@ -87,36 +87,29 @@
             <div class="col-md-4 mb-4">
                 <!-- Heading -->
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Your cart</span>
-                    <span class="badge rounded-pill badge-primary">3</span>
+                    <span class="text-muted">Keranjang Belanja</span>
+                    <span class="badge rounded-pill badge-primary">{{ keranjang.produk_items.count }}</span>
                 </h4>
 
                 <!-- Cart -->
                 <ul class="list-group mb-3">
+                    {% for belanjaan in keranjang.produk_items.all %}
                     <li class="list-group-item d-flex justify-content-between">
                         <div>
-                            <h6 class="my-0">Product name</h6>
-                            <small class="text-muted">Brief description</small>
+                            <h6 class="my-0">{{ belanjaan.quantity }} x {{ belanjaan.produk_item.nama_produk }}</h6>
+                            <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:50 }}</small>
                         </div>
-                        <span class="text-muted">$12</span>
+                        {% if belanjaan.produk_item.harga_diskon %}
+                        <span class="text-muted">${{ belanjaan.get_total_harga_diskon_item }}
+                        {% else %}
+                        ${{ belanjaan.get_total_harga_item}}
+                        {% endif %}
                     </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 class="my-0">Second product</h6>
-                            <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">$8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 class="my-0">Third item</h6>
-                            <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">$5</span>
-                    </li>
+                    {% endfor %}
+
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (USD)</span>
-                        <strong>$20</strong>
+                        <strong class="text-success">${{ keranjang.get_total_harga_order }}</strong>
                     </li>
                 </ul>
                 <!-- Cart -->

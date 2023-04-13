@@ -16,7 +16,25 @@ class ProductDetailView(generic.DetailView):
     queryset = ProdukItem.objects.all()
 
 class CheckoutView(generic.TemplateView):
-    template_name = 'checkout.html'
+    def get(self, *args, **kwargs):
+        # form = CheckoutForm()
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if order.produk_items.count() == 0:
+                messages.warning(self.request, 'Belum ada belajaan yang Anda pesan, lanjutkan belanja')
+                return redirect('toko:home-produk-list')
+        except ObjectDoesNotExist:
+            order = {}
+            messages.warning(self.request, 'Belum ada belajaan yang Anda pesan, lanjutkan belanja')
+            return redirect('toko:home-produk-list')
+
+        context = {
+            # 'form': form,
+            'keranjang': order,
+        }
+        template_name = 'checkout.html'
+        return render(self.request, template_name, context)
+
 
 class OrderSummaryView(generic.TemplateView):
     def get(self, *args, **kwargs):
