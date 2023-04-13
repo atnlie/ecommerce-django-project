@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="row justify-content-center">
+      <div class="col pt-5 pb-5">
+        <p>Total belanjaan kamu : <strong>${{ order.get_total_harga_order }}</strong></p>
+        <br />
+        {% if is_paypal %}
+        <div>{{ paypalform.render }}</div>
+        {% else %}
+        <div>Pembayaran Strip belum diaktifkan gunakan Paypal</div>
+        <a href="{% url 'toko:payment' 'paypal' %}"><div class="btn btn-info">Paypal</div></a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

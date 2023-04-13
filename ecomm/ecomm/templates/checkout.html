@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
-{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+{% load crispy_forms_tags %}
 
 {% block content%}
 <!--Main layout-->
 <main class="mt-5">
-    {% comment %} <div class="container"> {% endcomment %}
+    <div class="container">
         <!-- Heading -->
         <h2 class="my-5 text-center">Checkout</h2>
 
-        <!--Grid row-->
-        <div class="row">
-            <div>
-            <form method="POST" name="formCheckout">
-                {% csrf_token %}
+        <form method="POST" name="formCheckout">
+            {% csrf_token %}
+            <!--Grid row-->
+            <div class="row">
                 <!--Grid column-->
                 <div class="col-md-8 mb-4">
                     <!--Card-->
@@ -21,11 +20,10 @@
                     
                         <!--address-->
                         <p class="mb-0">
-                            Alamat
+                            Alamat Lengkap
                         </p>
                         <div class="form-outline mb-4">
-                            <input type="email" class="form-control" placeholder="1234 Main St" aria-label="1234 Main St" aria-describedby="basic-addon1" />
-                            {% comment %} {{ form.alamat_1 }} {% endcomment %}
+                            {{ form.alamat_1 }}
                         </div>
 
                         <!--address-2-->
@@ -33,8 +31,7 @@
                             Alamat Gedung (optional)
                         </p>
                         <div class="form-outline mb-4">
-                            <input type="email" class="form-control" placeholder="Apartment or suite" aria-label="Apartment or suite" aria-describedby="basic-addon1" />
-                            {% comment %} {{ form.alamat_2 }} {% endcomment %}
+                            {{ form.alamat_2 }}
                         </div>
 
                         <!--Grid row-->
@@ -44,9 +41,8 @@
                                 <p class="mb-0">
                                     Negara
                                 </p>
-                                    <div class="form-outline mb-4">
-                                    <input type="email" class="form-control" placeholder="United States" aria-label="United States" aria-describedby="basic-addon1" />
-                                    {% comment %} {{ form.negara }} {% endcomment %}
+                                    <div class="form-outline">
+                                    {{ form.negara }}
                                 </div>
                             </div>
                             <!--Grid column-->
@@ -54,11 +50,10 @@
                             <!--Grid column-->
                             <div class="col-lg-4 col-md-12 mb-4">
                                 <p class="mb-0">
-                                    Kodepos
+                                    Kode Pos
                                 </p>
                                 <div class="form-outline">
-                                    <input type="text" class="form-control"/>
-                                    {% comment %} {{ form.kode_pos }} {% endcomment %}
+                                    {{ form.kode_pos }}
                                 </div>
                             </div>
                             <!--Grid column-->
@@ -66,67 +61,59 @@
                         <!--Grid row-->
 
                         <hr />
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                            <label class="form-check-label" for="flexCheckDefault">Save this information for next time</label>
-                        </div>
-
-                        <hr />
 
                         <div class="my-3">
+                            {% for value, name in form.fields.opsi_pembayaran.choices %}
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
-                                <label class="form-check-label" for="flexRadioDefault1"> Paypal </label>
+                                <input class="form-check-input" type="radio" name="opsi_pembayaran" id="{{ name }}" value="{{ value }}"  required />
+                                <label class="form-check-label" for="{{ name }}">{{ name }}</label>
                             </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-                                <label class="form-check-label" for="flexRadioDefault2"> Stripe </label>
-                            </div>
+                            {% endfor %}
                         </div>
                         <hr class="mb-4" />                    
-                        <button class="btn btn-primary" type="button">Lanjutkan checkout</button>
+                    <button class="btn btn-primary" type="submit" {% if order.get_total_harga_order <= 0 %}disabled{% endif %}>Lanjutkan checkout</button>
                     </div>
                     <!--/.Card-->
                 </div>
                 <!--Grid column-->
-            </form>
-            
-            <!--Grid column-->
-            <div class="col-md-4 mb-4">
-                <!-- Heading -->
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Keranjang Belanja</span>
-                    <span class="badge rounded-pill badge-primary">{{ keranjang.produk_items.count }}</span>
-                </h4>
+                
+                
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+                    <!-- Heading -->
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Keranjang Belanja</span>
+                        <span class="badge rounded-pill badge-primary">{{ keranjang.produk_items.count }}</span>
+                    </h4>
 
-                <!-- Cart -->
-                <ul class="list-group mb-3">
-                    {% for belanjaan in keranjang.produk_items.all %}
-                    <li class="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 class="my-0">{{ belanjaan.quantity }} x {{ belanjaan.produk_item.nama_produk }}</h6>
-                            <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:50 }}</small>
-                        </div>
-                        {% if belanjaan.produk_item.harga_diskon %}
-                        <span class="text-muted">${{ belanjaan.get_total_harga_diskon_item }}
-                        {% else %}
-                        ${{ belanjaan.get_total_harga_item}}
-                        {% endif %}
-                    </li>
-                    {% endfor %}
+                    <!-- Cart -->
+                    <ul class="list-group mb-3">
+                        {% for belanjaan in keranjang.produk_items.all %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <h6 class="my-0">{{ belanjaan.quantity }} x {{ belanjaan.produk_item.nama_produk }}</h6>
+                                <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:50 }}</small>
+                            </div>
+                            {% if belanjaan.produk_item.harga_diskon %}
+                            <span class="text-muted">${{ belanjaan.get_total_harga_diskon_item }}
+                            {% else %}
+                            ${{ belanjaan.get_total_harga_item}}
+                            {% endif %}
+                        </li>
+                        {% endfor %}
 
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (USD)</span>
-                        <strong class="text-success">${{ keranjang.get_total_harga_order }}</strong>
-                    </li>
-                </ul>
-                <!-- Cart -->
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <strong class="text-success">${{ keranjang.get_total_harga_order }}</strong>
+                        </li>
+                    </ul>
+                    <!-- Cart -->
+                </div>
+                <!--Grid column-->
             </div>
-            <!--Grid column-->
-        </div>
-        <!--Grid row-->
-    {% comment %} </div> {% endcomment %}
+            <!--Grid row-->
+        </form>
+    </div>
 </main>
 <!--Main layout-->
 {% endblock content %}
