@@ -32,6 +32,9 @@ class ProdukItem(models.Model):
     label = models.CharField(choices=PILIHAN_LABEL, max_length=4)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
 
+    def __str__(self):
+        return f"{self.nama_produk} - ${self.harga}"
+
     def get_absolute_url(self):
         return reverse("toko:produk-detail", kwargs={
             "slug": self.slug
@@ -123,6 +126,9 @@ class Payment(models.Model):
 
     def __self__(self):
         return self.user.username
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.payment_option} - {self.amount}"
     
     class Meta:
         verbose_name_plural = 'Payment'

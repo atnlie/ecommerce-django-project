@@ -187,10 +187,8 @@ def paypal_return(request):
         payment.save()
         
         order_produk_item = OrderProdukItem.objects.filter(user=request.user,ordered=False)
-        for produk_item in order_produk_item:
-            produk_item.ordered = True
-            produk_item.save()
-
+        order_produk_item.update(ordered=True)
+        
         order.payment = payment
         order.ordered = True
         order.save()
