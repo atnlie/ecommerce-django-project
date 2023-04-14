@@ -46,14 +46,19 @@
         
         <!-- Right elements -->
         <div class="d-flex align-items-center">
-        <!-- Icon -->
-        <a class="nav-link me-3" href="{% url 'toko:order-summary' %}">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="badge rounded-pill badge-notification bg-danger">{{ request.user|total_produk_dikeranjang }}</span>
-        </a>
-        <a class="nav-link me-3" href="#">
-            <i class="fas fa-arrow-right-from-bracket"></i>
-        </a>
+            {% if request.user.is_authenticated %}
+                <!-- Icon -->
+                <a class="nav-link me-3" href="{% url 'toko:order-summary' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge rounded-pill badge-notification bg-danger">{{ request.user|total_produk_dikeranjang }}</span>
+                </a>
+                <a class="nav-link me-3" href="{% url 'account_logout' %}">
+                    <i class="fas fa-right-from-bracket"></i>
+                </a>
+            {% else %}
+                <a class="nav-link me-3" href="{% url 'account_login' %}">
+                <i class="fas fa-right-to-bracket"></i>
+            {% endif %}
         </div> 
         <!-- Right elements -->
         
