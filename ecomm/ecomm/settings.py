@@ -180,6 +180,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 
+# enable this if you publish publicly, update the domain name
+# CSRF_TRUSTED_ORIGINS = ['https://*.my.digiers.sdm.dev.sdmdigital.id']
+
 if DEBUG is False:
     SESSION_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
