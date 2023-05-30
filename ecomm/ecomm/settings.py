@@ -111,7 +111,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'anton_db',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': 'pregr3s',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -193,16 +193,16 @@ if DEBUG is False:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    ALLOWED_HOSTS = ['www.domain-kita.com']
+    ALLOWED_HOSTS = ['*']
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'db_name',
-            'USER': 'db_user',
-            'PASSWORD': 'db_password',
-            'HOST': 'www.domain-kita.com',
+            'NAME': 'anton_db',
+            'USER': 'postgres',
+            'PASSWORD': 'pregr3s',
+            'HOST': 'localhost',
             'PORT': '5432',
         }
     }
