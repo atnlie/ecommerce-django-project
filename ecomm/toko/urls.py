@@ -1,10 +1,12 @@
 from django.urls import path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
 
 app_name = 'toko'
 
 urlpatterns = [
      path('', views.HomeListView.as_view(), name='home-produk-list'),
+     #path('product/<kategori>', views.KategoriListView.as_view(), name='kategori-produk-list'),
      path('product/<slug>/', views.ProductDetailView.as_view(), name='produk-detail'),
      path('checkout/', views.CheckoutView.as_view(), name='checkout'),
      path('add-to-cart/<slug>/', views.add_to_cart, name='add-to-cart'),
@@ -14,3 +16,5 @@ urlpatterns = [
      path('paypal-return/', views.paypal_return, name='paypal-return'),
      path('paypal-cancel/', views.paypal_cancel, name='paypal-cancel'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

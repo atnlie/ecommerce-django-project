@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -10,9 +11,9 @@ PILIHAN_KATEGORI = (
 )
 
 PILIHAN_LABEL = (
-    ('NEW', 'primary'),
-    ('SALE', 'info'),
-    ('BEST', 'danger'),
+    ('NEW', 'New'),
+    ('SALE', 'Sale'),
+    ('BEST', 'Best'),
 )
 
 PILIHAN_PEMBAYARAN = (
@@ -22,6 +23,12 @@ PILIHAN_PEMBAYARAN = (
 
 User = get_user_model()
 
+class Kategori(models.Model):
+    nama_kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
+    slug = models.SlugField(unique=True)
+    def __str__(self):
+        return self.nama_kategori
+
 class ProdukItem(models.Model):
     nama_produk = models.CharField(max_length=100)
     harga = models.FloatField()
@@ -30,8 +37,9 @@ class ProdukItem(models.Model):
     deskripsi = models.TextField()
     gambar = models.ImageField(upload_to='product_pics')
     label = models.CharField(choices=PILIHAN_LABEL, max_length=4)
+    #kategori = models.ForeignKey(Kategori, on_delete=models.CASCADE)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
-
+    
     def __str__(self):
         return f"{self.nama_produk} - ${self.harga}"
 
@@ -49,7 +57,7 @@ class ProdukItem(models.Model):
         return reverse("toko:remove-from-cart", kwargs={
             "slug": self.slug
             })
-    
+
 class OrderProdukItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)

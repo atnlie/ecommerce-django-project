@@ -33,7 +33,7 @@
 
                         <!-- Link -->
                         <li class="nav-item acitve">
-                            <a class="nav-link text-white" href="#">All</a>
+                            <a class="nav-link text-white" href="/">All</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Shirts</a>
@@ -60,20 +60,24 @@
 
         <!-- Products -->
         <section>
-            <div class="text-center">
+            <div class="text-center mb-4">
               <div class="row">
                 
                 {% for pItem in object_list %}
                 <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card">
+                  <div class="card mb-4 h-100 d-flex">
                     <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                       data-mdb-ripple-color="light">
-                      <img src="{{ pItem.gambar.url }}"
-                        class="w-100" />
+                      <img src="{{ pItem.gambar.url }}" class="card-img card-img-top" style="width:100%;height: 30vh; object-fit:contain;"/>
                       <a href="{{ pItem.get_absolute_url }}"> 
                         <div class="mask">
                           <div class="d-flex justify-content-start align-items-end h-100">
-                            <h5><span class="badge bg-{{ pItem.get_label_display }} ms-2">{{ pItem.label }}</span></h5>
+                            <h5>
+                              {% if pItem.label == 'SALE'%}
+                                <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
+                              {% elif pItem.label != '' %}
+                                <span class="badge badge-primary ms-2">{{ pItem.label }}</span></h5>
+                              {% endif %}
                           </div>
                         </div>
                         <div class="hover-overlay">

@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment
+from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, Kategori
+
+class KategoriAdmin(admin.ModelAdmin):
+    list_display = ['nama_kategori', 'slug']
+    prepopulated_fields = {'slug' : ('nama_kategori',)}
 
 class ProdukItemAdmin(admin.ModelAdmin):
     list_display = ['nama_produk','harga', 'harga_diskon', 'slug',
                     'deskripsi', 'gambar', 'label', 'kategori']
+    prepopulated_fields = {"slug": ("nama_produk",)}
 
 class OrderProdukItemAdmin(admin.ModelAdmin):
     list_display = ['user', 'ordered', 'produk_item', 'quantity']
@@ -17,6 +22,7 @@ class AlamatPengirimanAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['user', 'amount', 'timestamp', 'payment_option', 'charge_id']
 
+admin.site.register(Kategori, KategoriAdmin)
 admin.site.register(ProdukItem, ProdukItemAdmin)
 admin.site.register(OrderProdukItem, OrderProdukItemAdmin)
 admin.site.register(Order, OrderAdmin)

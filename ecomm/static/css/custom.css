@@ -23,3 +23,9 @@ color: #E53935
 .sale-badge {
 background-color: #E53935
 }
+
+.card-img-top{
+  width: 100%;
+  height: 30vw;
+  object-fit: contain;
+}

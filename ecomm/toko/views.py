@@ -11,14 +11,36 @@ from paypal.standard.forms import PayPalPaymentsForm
 from .forms import CheckoutForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment
 
+def produk(req):
+    context = {
+        'items': ProdukItem.objects.all()
+    }
+    return render(req, "product_detail.html")
+
+class KategoriListView(generic.ListView):
+    def get(req, nama_kategori):
+        if (nama_kategori == 'all'):
+            nama = ''
+            produk = ProdukItem.objects.all()
+        else:
+            nama = Kategori.objects.get(slug = nama_kategori)
+            produk = ProductItem.objects.filter(kategori = nama)
+        paginate_by = 4
+        context = {
+            'items' : produk
+        }
+        return render(self.req, 'home.html', context)
+
 class HomeListView(generic.ListView):
     template_name = 'home.html'
-    queryset = ProdukItem.objects.all()
+    model = ProdukItem
+    #queryset = ProdukItem.objects.all()
     paginate_by = 4
 
 class ProductDetailView(generic.DetailView):
     template_name = 'product_detail.html'
-    queryset = ProdukItem.objects.all()
+    model = ProdukItem
+    #queryset = ProdukItem.objects.all()
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
     def get(self, *args, **kwargs):
