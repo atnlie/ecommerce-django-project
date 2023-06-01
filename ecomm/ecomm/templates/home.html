@@ -1,131 +1,121 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-{% include 'carousel.html' %}
+{% extends 'base.html' %} {% block content %} {% include 'carousel.html' %}
 
 <!--Main layout-->
 <main>
-    <div class="container">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
-            <!-- Container wrapper -->
-            <div class="container-fluid">
+  <div class="container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607d8b">
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#">Categories:</a>
 
-                <!-- Navbar brand -->
-                <a class="navbar-brand" href="#">Categories:</a>
+        <!-- Toggle button -->
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
 
-                <!-- Toggle button -->
-                <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-mdb-toggle="collapse"
-                        data-mdb-target="#navbarSupportedContent2"
-                        aria-controls="navbarSupportedContent2"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Link -->
+            <li class="nav-item acitve">
+              <a class="nav-link text-white" href="#">All</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Shirts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Sport wears</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Outwears</a>
+            </li>
+          </ul>
 
-                <!-- Collapsible wrapper -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- Search -->
+          <form class="w-auto py-1" style="max-width: 12rem">
+            <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
 
-                        <!-- Link -->
-                        <li class="nav-item acitve">
-                            <a class="nav-link text-white" href="#">All</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Shirts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Sport wears</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Outwears</a>
-                        </li>
+    <!-- Products -->
+    <style>
+      .card-container {
+        height: 350px; /* Set a fixed height for the card container */
+      }
 
-                    </ul>
-
-                    <!-- Search -->
-                    <form class="w-auto py-1" style="max-width: 12rem">
-                        <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search">
-                    </form>
-
-                </div>
-            </div>
-            <!-- Container wrapper -->
-        </nav>
-        <!-- Navbar -->
-
-        <!-- Products -->
-        <section>
-            <div class="text-center">
-              <div class="row">
-                
-                {% for pItem in object_list %}
-                <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card">
-                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                      data-mdb-ripple-color="light">
-                      <img src="{{ pItem.gambar.url }}"
-                        class="w-100" />
-                      <a href="{{ pItem.get_absolute_url }}"> 
-                        <div class="mask">
-                          <div class="d-flex justify-content-start align-items-end h-100">
-                            <h5><span class="badge bg-{{ pItem.get_label_display }} ms-2">{{ pItem.label }}</span></h5>
-                          </div>
-                        </div>
-                        <div class="hover-overlay">
-                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="card-body">
-                      <a href="{{ pItem.get_absolute_url }}" class="text-reset">
-                        <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
-                      </a>
-                      <a href="" class="text-reset ">
-                        <p>{{ pItem.get_kategori_display }}</p>
-                      </a>
-                      <h6 class="mb-3 price">${% if pItem.harga_diskon %}{{ pItem.harga_diskon }}{% else %}{{ pItem.harga }}{% endif %}</h6>
+      .card-image {
+        height: 100%; /* Make the image fill the entire height of the card container */
+        object-fit: cover; /* Control how the image fits within the container */
+      }
+    </style>
+    <section>
+      <div class="text-center">
+        <div class="row">
+          {% for pItem in object_list %}
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card card-container">
+              <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+                <img src="{{ pItem.gambar.url }}" class="w-100 card-image" />
+                <a href="{{ pItem.get_absolute_url }}">
+                  <div class="mask">
+                    <div class="d-flex justify-content-start align-items-end h-100">
+                      <h5><span class="badge bg-{{ pItem.get_label_display }} ms-2">{{ pItem.label }}</span></h5>
                     </div>
                   </div>
-                </div>
-                {% empty %}
-                  <p>Data Produk belum tersedia</p>
-                {% endfor %}
-
+                  <div class="hover-overlay">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+                  </div>
+                </a>
+              </div>
+              <div class="card-body">
+                <a href="{{ pItem.get_absolute_url }}" class="text-reset">
+                  <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
+                </a>
+                <a href="" class="text-reset">
+                  <p>{{ pItem.get_kategori_display }}</p>
+                </a>
+                <h6 class="mb-3 price">${% if pItem.harga_diskon %}{{ pItem.harga_diskon }}{% else %}{{ pItem.harga }}{% endif %}</h6>
               </div>
             </div>
-          </section>
-        <!-- End Products -->
+          </div>
+          {% empty %}
+          <p>Data Produk belum tersedia</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- End Products -->
 
-        <!-- Pagination -->
-        {% if is_paginated %}
-        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-            <ul class="pagination">
-                <li class="page-item">
-                  {% if page_obj.has_previous %}
-                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  {% endif %}
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
-                <li class="page-item">
-                  {% if page_obj.has_next %}
-                    <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  {% endif %}
-                </li>
-            </ul>
-        </nav>
-        {% endif %}
-        <!-- Pagination -->
-    </div>
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+      <ul class="pagination">
+        <li class="page-item">
+          {% if page_obj.has_previous %}
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+          {% endif %}
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+        <li class="page-item">
+          {% if page_obj.has_next %}
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+    {% endif %}
+    <!-- Pagination -->
+  </div>
 </main>
 <!--Main layout-->
 {% endblock content %}
-
