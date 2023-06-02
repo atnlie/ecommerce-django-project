@@ -88,7 +88,7 @@ class OrderProdukItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     produk_items = models.ManyToManyField(OrderProdukItem)
     tanggal_mulai = models.DateTimeField(auto_now_add=True)
     tanggal_order = models.DateTimeField(blank=True, null=True)

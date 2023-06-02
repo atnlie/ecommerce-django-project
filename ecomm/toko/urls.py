@@ -16,6 +16,7 @@ urlpatterns = [
     path("paypal-return/", views.paypal_return, name="paypal-return"),
     path("paypal-cancel/", views.paypal_cancel, name="paypal-cancel"),
     path('hapus-produk/<int:item_id>/', views.hapus_produk, name='hapus-produk'),
+    path("remove-single-item-from-cart/<slug>/", views.remove_single_item_from_cart, name="remove-single-item-from-cart"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

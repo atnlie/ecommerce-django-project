@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
 from django.views import generic
@@ -149,7 +150,7 @@ class OrderSummaryView(LoginRequiredMixin, generic.TemplateView):
             messages.error(self.request, "Tidak ada pesanan yang aktif")
             return redirect("/")
 
-
+@login_required
 def add_to_cart(request, slug):
     if request.user.is_authenticated:
         produk_item = get_object_or_404(ProdukItem, slug=slug)
@@ -166,51 +167,56 @@ def add_to_cart(request, slug):
                     f"ProdukItem sudah diupdate menjadi: { order_produk_item.quantity }"
                 )
                 messages.info(request, pesan)
-                return redirect("toko:produk-detail", slug=slug)
+                return redirect("toko:order-summary")
             else:
                 order.produk_items.add(order_produk_item)
                 messages.info(request, "ProdukItem pilihanmu sudah ditambahkan")
-                return redirect("toko:produk-detail", slug=slug)
+                return redirect("toko:order-summary")
         else:
             tanggal_order = timezone.now()
             order = Order.objects.create(user=request.user, tanggal_order=tanggal_order)
             order.produk_items.add(order_produk_item)
             messages.info(request, "ProdukItem pilihanmu sudah ditambahkan")
-            return redirect("toko:produk-detail", slug=slug)
+            return redirect("toko:order-summary")
     else:
         return redirect("/accounts/login")
 
+@login_required
+def remove_single_item_from_cart(request, slug):
+    if request.user.is_authenticated:
+        produk_item = get_object_or_404(ProdukItem, slug=slug)
+        order_query = Order.objects.filter(user=request.user, ordered=False)
+        if order_query.exists():
+            order = order_query[0]
+            if order.produk_items.filter(produk_item__slug=produk_item.slug).exists():
+                try:
+                    order_produk_item = OrderProdukItem.objects.filter(
+                        produk_item=produk_item, user=request.user, ordered=False
+                    ).first()  # Use first() instead of [0]
 
-# def remove_from_cart(request, slug):
-#     if request.user.is_authenticated:
-#         produk_item = get_object_or_404(ProdukItem, slug=slug)
-#         order_query = Order.objects.filter(user=request.user, ordered=False)
-#         if order_query.exists():
-#             order = order_query[0]
-#             if order.produk_items.filter(produk_item__slug=produk_item.slug).exists():
-#                 try:
-#                     order_produk_item = OrderProdukItem.objects.filter(
-#                         produk_item=produk_item, user=request.user, ordered=False
-#                     )[0]
+                    if order_produk_item.quantity > 1:
+                        order_produk_item.quantity -= 1
+                        order_produk_item.save()
+                        pesan = f"ProdukItem sudah dikurangi. Jumlah saat ini: {order_produk_item.quantity}"
+                    else:
+                        order.produk_items.remove(order_produk_item)
+                        pesan = "ProdukItem dihapus dari keranjang."
 
-#                     order.produk_items.remove(order_produk_item)
-#                     order_produk_item.delete()
+                    messages.info(request, pesan)
+                    return redirect("toko:order-summary")
+                except ObjectDoesNotExist:
+                    order.produk_items.remove(order_produk_item)
+                    print("Error: order ProdukItem sudah tidak ada")
+            else:
+                messages.info(request, "ProdukItem tidak ada")
+                return redirect("toko:order-summary")
+        else:
+            messages.info(request, "ProdukItem tidak ada order yang aktif")
+            return redirect("toko:order-summary", slug=slug)
+    else:
+        return redirect("/accounts/login")
 
-#                     pesan = f"ProdukItem sudah dihapus"
-#                     messages.info(request, pesan)
-#                     return redirect("toko:produk-detail", slug=slug)
-#                 except ObjectDoesNotExist:
-#                     print("Error: order ProdukItem sudah tidak ada")
-#             else:
-#                 messages.info(request, "ProdukItem tidak ada")
-#                 return redirect("toko:produk-detail", slug=slug)
-#         else:
-#             messages.info(request, "ProdukItem tidak ada order yang aktif")
-#             return redirect("toko:produk-detail", slug=slug)
-#     else:
-#         return redirect("/accounts/login")
-
-
+@login_required
 def remove_from_cart(request, slug):
     if request.user.is_authenticated:
         produk_item = get_object_or_404(ProdukItem, slug=slug)
@@ -232,7 +238,7 @@ def remove_from_cart(request, slug):
                         pesan = "ProdukItem dihapus dari keranjang."
 
                     messages.info(request, pesan)
-                    return redirect("toko:produk-detail", slug=slug)
+                    return redirect("toko:order-summary")
                 except ObjectDoesNotExist:
                     order.produk_items.remove(order_produk_item)
                     print("Error: order ProdukItem sudah tidak ada")
@@ -244,7 +250,6 @@ def remove_from_cart(request, slug):
             return redirect("toko:produk-detail", slug=slug)
     else:
         return redirect("/accounts/login")
-
 
 # @csrf_exempt
 def paypal_return(request):
