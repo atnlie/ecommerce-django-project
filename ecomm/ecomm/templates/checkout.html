@@ -96,9 +96,9 @@
                                 <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:20 }}</small>
                             </div>
                             {% if belanjaan.produk_item.harga_diskon %}
-                            <span class="text-muted" style="width: 105px;">Rp {{ belanjaan.get_total_harga_diskon_item|intcomma }},-
+                            <span class="text-muted">Rp {{ belanjaan.get_total_harga_diskon_item|intcomma }},-
                             {% else %}
-                            <span style="width: 105px;">Rp {{ belanjaan.get_total_harga_item|intcomma }},-
+                            <span >Rp {{ belanjaan.get_total_harga_item|intcomma }},-
                             {% endif %}
                         </li>
                         {% endfor %}
