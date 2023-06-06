@@ -1,15 +1,12 @@
 from django import template
-from toko.models import OrderProdukItem
-from django.db.models import Sum
+from toko.models import Order
 
 register = template.Library()
 
 @register.filter
 def total_produk_dikeranjang(user):
     if user.is_authenticated:
-        query = OrderProdukItem.objects.filter(user=user, ordered=False)
+        query = Order.objects.filter(user=user, ordered=False)
         if query.exists():
-            total_quantity = OrderProdukItem.objects.aggregate(total_quantity=Sum('quantity'))['total_quantity']
-            return total_quantity
-            
+            return query[0].produk_items.count()
     return 0

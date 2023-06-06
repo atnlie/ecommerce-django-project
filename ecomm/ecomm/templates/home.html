@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %} {% include 'carousel.html' %}
+{% extends 'base.html' %} {% load humanize %} {% block content %} {% include 'carousel.html' %}
 
 <!--Main layout-->
 <main>
@@ -58,10 +58,12 @@
                         <div class="mask">
                           <div class="d-flex justify-content-start align-items-end h-100">
                             <h5>
-                              {% if pItem.label == 'SALE'%}
+                              {% if pItem.label == 'NEW'%}
+                                <span class="badge badge-info ms-2">{{ pItem.label }}</span></h5>
+                              {% elif pItem.label == 'SALE' %}
                                 <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
                               {% elif pItem.label != '' %}
-                                <span class="badge badge-primary ms-2">{{ pItem.label }}</span></h5>
+                                <span class="badge badge-warning ms-2">{{ pItem.label }}</span></h5>
                               {% endif %}
                           </div>
                         </div>
@@ -77,7 +79,7 @@
                       <a href="" class="text-reset ">
                         <p>{{ pItem.get_kategori_display }}</p>
                       </a>
-                      <h6 class="mb-3 price">${% if pItem.harga_diskon %}{{ pItem.harga_diskon }}{% else %}{{ pItem.harga }}{% endif %}</h6>
+                      <h6 class="mb-3 price">{% if pItem.harga_diskon %}Rp {{ pItem.harga_diskon|intcomma }},-{% else %}Rp {{ pItem.harga|intcomma }},-{% endif %}</h6>
                     </div>
                   </div>
                 </div>
