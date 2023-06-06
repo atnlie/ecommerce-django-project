@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+import datetime
 
 PILIHAN_KATEGORI = (
     ('S', 'Shirt'),
@@ -13,12 +14,20 @@ PILIHAN_KATEGORI = (
 PILIHAN_LABEL = (
     ('NEW', 'New'),
     ('SALE', 'Sale'),
-    ('BEST', 'Best'),
+    ('BEST', 'Bestseller'),
 )
 
 PILIHAN_PEMBAYARAN = (
     ('P', 'Paypal'),
     ('S', 'Stripe'),
+)
+
+PILIHAN_RATING = (
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
 )
 
 User = get_user_model()
@@ -31,18 +40,23 @@ class Kategori(models.Model):
 
 class ProdukItem(models.Model):
     nama_produk = models.CharField(max_length=100)
-    harga = models.FloatField()
-    harga_diskon = models.FloatField(blank=True, null=True)
+    harga = models.IntegerField()
+    harga_diskon = models.IntegerField(blank=True, null=True)
     slug = models.SlugField(unique=True)
     deskripsi = models.TextField()
+    detail_produk = models.TextField(null=True)
     gambar = models.ImageField(upload_to='product_pics')
-    label = models.CharField(choices=PILIHAN_LABEL, max_length=4)
+    label = models.CharField(choices=PILIHAN_LABEL, max_length=11)
     #kategori = models.ForeignKey(Kategori, on_delete=models.CASCADE)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
     
+    @property
+    def pid(self):
+        return self.id
+    
     def __str__(self):
-        return f"{self.nama_produk} - ${self.harga}"
-
+        return f"{self.nama_produk} - Rp. {self.harga},-"
+    
     def get_absolute_url(self):
         return reverse("toko:produk-detail", kwargs={
             "slug": self.slug
@@ -57,6 +71,21 @@ class ProdukItem(models.Model):
         return reverse("toko:remove-from-cart", kwargs={
             "slug": self.slug
             })
+    
+    def get_remove_single_item_from_cart_url(self):
+        return reverse("toko:remove-single-item-from-cart", kwargs={
+            "slug": self.slug
+            })
+
+class ProdukImages(models.Model):
+    produk = models.ForeignKey(ProdukItem, related_name="p_images", on_delete=models.SET_NULL, null=True)
+    images = models.ImageField(upload_to='product-images',default="product.jpg")
+
+    class Meta :
+        verbose_name_plural =  "Product Images"
+
+    def __str__(self):
+        return f"Gambar Produk {self.produk}"
 
 class OrderProdukItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -86,7 +115,21 @@ class OrderProdukItem(models.Model):
             return self.get_total_hemat_item()
         return 0
 
+class ProdukReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    produk = models.ForeignKey(ProdukItem, on_delete=models.CASCADE, related_name='reviews')
+    nama = models.CharField(max_length=50, default='Anonymous')
+    komentar = models.TextField()
+    publish = models.DateTimeField(default=datetime.datetime.now)
+    status = models.BooleanField(default=True)
+    rating = models.CharField(choices=PILIHAN_RATING, max_length=2)
 
+    class Meta:
+        ordering = ("publish",)
+
+    def __str__(self):
+        return f"Comment by {self.nama}"
+    
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     produk_items = models.ManyToManyField(OrderProdukItem)
@@ -98,8 +141,7 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
-
-     
+         
     def get_total_harga_order(self):
         total = 0
         for order_produk_item in self.produk_items.all():
@@ -127,7 +169,7 @@ class AlamatPengiriman(models.Model):
 
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    amount = models.FloatField()
+    amount = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
     payment_option = models.CharField(choices=PILIHAN_PEMBAYARAN, max_length=1)
     charge_id = models.CharField(max_length=50)

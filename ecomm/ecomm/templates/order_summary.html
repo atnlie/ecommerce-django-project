@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load humanize %} {% block content %}
 <div class="container">
   <div class="row">
     <div class="col-12 mt-4 mb-4">
@@ -8,16 +8,16 @@
   <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
       <tr>
-        <th>#</th>
+        <th>No.</th>
         <th>Nama Produk</th>
-        <th style="width: 110px;">Harga</th>
-        <th>Quantity</th>
-        <th>Total Harga</th>
+        <th style="width: 130px;">Harga</th>
+        <th >Quantity</th>
+        <th style="width: 130px;">Total Harga</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      {% for pItem in keranjang.produk_items.all %}
+      {% for pItem in keranjang.produk_items.all|dictsort:'id' %}
       <tr>
         <td scope="row">{{ forloop.counter }}</td>
         <td>
@@ -37,23 +37,23 @@
             </div>
           </a>
         </td>
-        <td><div>Rp. {{ pItem.produk_item.harga }}</div></td>
+        <td><div>Rp {{ pItem.produk_item.harga|intcomma}},-</div></td>
         <td>
           <a
             href="{% url 'toko:remove-single-item-from-cart' pItem.produk_item.slug %}">
-            <i class="fas fa-minus mr-4" style="margin-right: 4px"></i>
+            <i class="fas fa-minus" style="margin-right: 2px"></i>
           </a>
           {{ pItem.quantity }}
           <a href="{% url 'toko:add-to-cart' pItem.produk_item.slug %}">
-            <i class="fas fa-plus ml-4" style="margin-left: 4px"></i>
+            <i class="fas fa-plus" style="margin-left: 2px"></i>
           </a>
         </td>
         <td>
-          {% if pItem.produk_item.harga_diskon %} Rp. {{pItem.get_total_harga_diskon_item }}
-          <span class="badge badge-danger rounded-pill d-inline"
-            >Hemat Rp.{{ pItem.get_total_hemat_item }}</span
+          {% if pItem.produk_item.harga_diskon %} Rp {{pItem.get_total_harga_diskon_item|intcomma }},-
+          <span class="badge badge-danger d-inline"
+            >Hemat Rp {{ pItem.get_total_hemat_item|intcomma }},-</span
           >
-          {% else %} Rp.{{ pItem.get_total_harga_item }} {% endif %}
+          {% else %} Rp {{ pItem.get_total_harga_item|intcomma }},- {% endif %}
         </td>
         <td>
           <a href="{% url 'toko:remove-from-cart' pItem.produk_item.slug %}"
@@ -74,14 +74,14 @@
           >
         </td>
       </tr>
-      {% endfor %} {% if keranjang.get_total_harga_order %}
+      {% endfor %} {% if keranjang.produk_items.all %}
       <tr>
         <td colspan="4"><div class="d-flex justify-content-center"><b>Total Belanja</b></div></td>
         <td>
-          <b>Rp.{{ keranjang.get_total_harga_order }}</b>
+          <b>Rp {{ keranjang.get_total_harga_order|intcomma }},-</b>
           {% if keranjang.get_total_hemat_order %}
           <span class="badge badge-danger"
-            >Hemat Rp.{{ keranjang.get_total_hemat_order }}</span
+            >Hemat Rp {{ keranjang.get_total_hemat_order|intcomma }},-</span
           >
           {% endif %}
         </td>

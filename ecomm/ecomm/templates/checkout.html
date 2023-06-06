@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block content%}
 <!--Main layout-->
@@ -92,19 +93,19 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <div>
                                 <h6 class="my-0">{{ belanjaan.quantity }} x {{ belanjaan.produk_item.nama_produk }}</h6>
-                                <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:50 }}</small>
+                                <small class="text-muted">{{ belanjaan.produk_item.deskripsi|truncatechars:20 }}</small>
                             </div>
                             {% if belanjaan.produk_item.harga_diskon %}
-                            <span class="text-muted">${{ belanjaan.get_total_harga_diskon_item }}
+                            <span class="text-muted" style="width: 105px;">Rp {{ belanjaan.get_total_harga_diskon_item|intcomma }},-
                             {% else %}
-                            ${{ belanjaan.get_total_harga_item}}
+                            <span style="width: 105px;">Rp {{ belanjaan.get_total_harga_item|intcomma }},-
                             {% endif %}
                         </li>
                         {% endfor %}
 
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong class="text-success">${{ keranjang.get_total_harga_order }}</strong>
+                            <span>Total (Rupiah)</span>
+                            <strong class="text-success">Rp {{ keranjang.get_total_harga_order|intcomma }},-</strong>
                         </li>
                     </ul>
                     <!-- Cart -->
