@@ -1,9 +1,9 @@
 {% load cart_template_tags %}
 
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white w-100 p-2 px-md-3">
     <!-- Container wrapper -->
-    <div class="container">    
+    <div class="container w-100 navbar-containe">  
         <!-- Toggle button -->
         <button
         class="navbar-toggler"
@@ -29,40 +29,57 @@
             />
         </a>
         <!-- Left links -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0 d-flex">
             <li class="nav-item active">
-            <a class="nav-link " href="/">Home</a>
+                <a class="nav-link" href="/">HOME</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProduk" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    PRODUK
+                </a>
+                <div class="dropdown-menu p-2" aria-labelledby="navbarDropdownProduk">
+                    <a href="#" class="dropdown-item">Semua</a>
+                    <a href="#" class="dropdown-item">Pakaian</a>
+                    <a href="#" class="dropdown-item">Tas</a>
+                    <a href="#" class="dropdown-item">Sepatu</a>
+                    <a href="#" class="dropdown-item">Aksesoris</a>
+                </div>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'toko:checkout' %}">Checkout</a>
+                <a class="nav-link" href="{% url 'toko:checkout' %}">CHECKOUT</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'toko:kontak' %}">Kontak</a>
-                </li>
+                <a class="nav-link" href="{% url 'toko:kontak' %}">KONTAK</a>
+            </li>
         </ul>
         <!-- Left links -->      
         </div>
         <!-- Collapsible wrapper -->
         
         <!-- Right elements -->
-        <div class="d-flex align-items-center">
-            {% if request.user.is_authenticated %}
-                <!-- Icon -->
-                <a class="nav-link me-3" href="{% url 'toko:order-summary' %}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge rounded-pill badge-notification bg-danger">{{ request.user|total_produk_dikeranjang }}</span>
-                </a>
-                <a class="nav-link me-3" href="{% url 'account_logout' %}">
-                    <i class="fas fa-right-from-bracket"></i>
-                </a>
-            {% else %}
-                <a class="nav-link me-3" href="{% url 'account_login' %}">
-                <i class="fas fa-right-to-bracket"></i>
-            {% endif %}
-        </div> 
+        <div class="ms-auto">
+            <div class="d-flex align-items-center">
+                <form class="w-auto py-1 d-inline" style="max-width: 12rem">
+                    <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search" />
+                </form>
+                {% if request.user.is_authenticated %}
+                    <!-- Icon -->
+                    <a class="nav-link ms-4" href="{% url 'toko:order-summary' %}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge rounded-pill badge-notification bg-danger">{{ request.user|total_produk_dikeranjang }}</span>
+                    </a>
+                    <a class="nav-link ms-4" href="{% url 'account_logout' %}">
+                        <i class="fas fa-right-from-bracket"></i>
+                    </a>
+                {% else %}
+                    <a class="nav-link ms-4" href="{% url 'account_login' %}">
+                    <i class="fas fa-right-to-bracket"></i>
+                {% endif %}
+            </div> 
+        </div>
         <!-- Right elements -->
         
     </div>
     <!-- Container wrapper -->
 </nav>
-    <!-- Navbar -->
+<!-- Navbar -->

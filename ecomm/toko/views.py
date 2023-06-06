@@ -31,10 +31,20 @@ def hapus_produk(request, item_id):
     item.delete()
     return redirect('toko:order-summary')
 
-class HomeListView(generic.ListView):
-    template_name = "home.html"
-    queryset = ProdukItem.objects.all()
+def HomeListView(req):
+    # template_name = "home.html"
+    produk = ProdukItem.objects.all()
+    best = ProdukItem.objects.filter(label = 'BEST')
+    new = ProdukItem.objects.filter(label = 'NEW')
+    sale = ProdukItem.objects.filter(label = 'SALE')
+    context = {
+        'all' : produk,
+        'best': best,
+        'sale' : sale,
+        'new' : new,
+    }
     paginate_by = 4
+    return render(req, "home.html", context)
 
 class ProductDetailView(generic.DetailView):
     template_name = "product_detail.html"
@@ -42,7 +52,7 @@ class ProductDetailView(generic.DetailView):
 
 
 class KontakView(generic.TemplateView):
-    template_name = "footer.html"
+    template_name = "kontak.html"
 
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
