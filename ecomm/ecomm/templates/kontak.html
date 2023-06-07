@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %} 
+
+<main class="my-5" style="background-image: url();">
+    <div class="container w-100 card" style="margin-top: 4vw;">
+        <div class="row p-4">
+            <div class="col-md-6">
+                <p>Voguetage</p>
+            </div>
+            <div class="col-md-6">
+                <h1>Hubungi Kami</h1>
+                <p>Kami akan menjawab masalah dan pertanyaan Anda, 24 jam!</p>
+                <form action="" method="post" class="p-2">
+                    <label for="nama">Nama</label> <br>
+                    <input type="text" name="nama" id="nama" placeholder="Siti Nurbaya" /> <br>
+
+                    <label for="nama">Email</label> <br>
+                    <input type="email" name="email" id="email" placeholder="siti@gmail.com" /> <br>
+
+                    <label for="pesan">Pesan</label> <br>
+                    <textarea name="pesan" id="pesan" cols="30" rows="10"> </textarea> <br>
+
+                    <input type="submit" value="Kirim Pesan">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content%}

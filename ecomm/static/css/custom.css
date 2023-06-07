@@ -1,8 +1,5 @@
-.carousel-item {
-  height: 30vh;
-}
 .card {
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 5px;
 }
 .footer-cta {
 box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
@@ -22,10 +19,4 @@ color: #E53935
 
 .sale-badge {
 background-color: #E53935
-}
-
-.card-img-top{
-  width: 100%;
-  height: 30vw;
-  object-fit: contain;
 }

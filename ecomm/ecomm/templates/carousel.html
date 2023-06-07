@@ -1,3 +1,4 @@
+{% load static %}
 <!-- carousel -->
 <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel">
     <div class="carousel-indicators">
@@ -23,40 +24,33 @@
         ></button>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%282%29.jpg" class="d-block w-100" alt="Wild Landscape"/>
+        <div class="carousel-item active" style="height: 400px; object-position: center bottom;">
+            <img src="{%static 'img/banner2.jpg'%}"" class="d-block w-100" alt="Banner Koleksi Tas" style="min-height: 400px;"/>
+            <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%282%29.jpg" class="d-block w-100" alt="Wild Landscape"/> -->
+            <!-- <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div> -->
+        </div>
+        <div class="carousel-item" style="height: 400px;">
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%283%29.jpg" class="d-block w-100" alt="Bag" style="min-height: 400px;"/>
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
-            <div class="carousel-caption d-none d-sm-block mb-5">
-                <h1 class="mb-4">
-                    <strong>Nikmati kemudahan berbelanja di Toko kami</strong>
-                </h1>
-                <p>
+            <div class="carousel-caption d-none d-md-block mb-2">
+                <h5>
+                    <strong>Fashion untuk <i>Wanita</i></strong>
+                </h5>
+                <!-- <p>
                     <strong>Temukan Gaya Anda dengan Kemudahan Belanja Online di Toko Kami - Fashion Berkualitas Tinggi Hanya di Sini!</strong>
-                </p>
+                </p> -->
             </div>
         </div>
-        <div class="carousel-item">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%283%29.jpg" class="d-block w-100" alt="Camera"/>
+        <div class="carousel-item" style="height: 400px;">
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%285%29.jpg" class="d-block w-100" alt="Banner 3" style="min-height: 400px;"/>
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
-            <div class="carousel-caption d-none d-md-block mb-5">
-                <h1 class="mb-4">
-                    <strong>Nikmati kemudahan berbelanja di Toko kami</strong>
-                </h1>
-                <p>
+            <div class="carousel-caption d-none d-md-block mb-2">
+                <h5>
+                    <strong>Fashion untuk <i>Wanita</i></strong>
+                </h5>
+                <!-- <p>
                     <strong>Temukan Gaya Anda dengan Kemudahan Belanja Online di Toko Kami - Fashion Berkualitas Tinggi Hanya di Sini!</strong>
-                </p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%285%29.jpg" class="d-block w-100" alt="Exotic Fruits"/>
-            <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
-            <div class="carousel-caption d-none d-md-block mb-5">
-                <h1 class="mb-4">
-                    <strong>Nikmati kemudahan berbelanja di Toko kami</strong>
-                </h1>
-                <p>
-                    <strong>Temukan Gaya Anda dengan Kemudahan Belanja Online di Toko Kami - Fashion Berkualitas Tinggi Hanya di Sini!</strong>
-                </p>
+                </p> -->
             </div>
         </div>
     </div>

@@ -2,12 +2,12 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.views import generic
 from paypal.standard.forms import PayPalPaymentsForm
-from django.conf import settings
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -28,10 +28,20 @@ class KategoriListView(generic.ListView):
         }
         return render(self.req, 'home.html', context)
 
-class HomeListView(generic.ListView):
-    template_name = "home.html"
-    queryset = ProdukItem.objects.all()
+def HomeListView(req):
+    # template_name = "home.html"
+    produk = ProdukItem.objects.all()
+    best = ProdukItem.objects.filter(label = 'BEST')
+    new = ProdukItem.objects.filter(label = 'NEW')
+    sale = ProdukItem.objects.filter(label = 'SALE')
+    context = {
+        'all' : produk,
+        'best': best,
+        'sale' : sale,
+        'new' : new,
+    }
     paginate_by = 4
+    return render(req, "home.html", context)
 
 class ProductDetailView(generic.DetailView):
     template_name = "product_detail.html"
@@ -73,7 +83,7 @@ class ProductDetailView(generic.DetailView):
         return redirect("/accounts/login/?next=" + self.request.path)
 
 class KontakView(generic.TemplateView):
-    template_name = "footer.html"
+    template_name = "kontak.html"
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
     def get(self, *args, **kwargs):
@@ -132,6 +142,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
             messages.error(self.request, "Tidak ada pesanan yang aktif")
             return redirect("toko:order-summary")
 
+
 class PaymentView(LoginRequiredMixin, generic.FormView):
     template_name = "payment.html"
     
@@ -171,15 +182,16 @@ class PaymentView(LoginRequiredMixin, generic.FormView):
     
 def checkout_stripe(request):
             order = Order.objects.get(user=request.user, ordered=False)
+            price = int(order.get_total_harga_order() * 100)
             checkout_session = stripe.checkout.Session.create(
                     payment_method_types=["card"],
                     line_items=[
                         {
                         "price_data": {
-                                        "currency": "idr",
-                                        "unit_amount": int(order.get_total_harga_order() * 100),
+                                        "currency": "usd",
+                                        "unit_amount": price,
                                         "product_data": {
-                                            "name": f"Pembayaran belanjaan",
+                                            "name": "Pembayaran belanjaan",
                                         },
                                     },
                                     "quantity": 1,
@@ -373,9 +385,5 @@ def stripe_success(request):
 def stripe_cancel(request):
     messages.error(request, "Pembayaran dibatalkan")
     return redirect("toko:checkout")
-
-
-
-
 
 

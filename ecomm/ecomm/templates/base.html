@@ -19,31 +19,37 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <!-- Google Fonts Roboto -->
+    <!-- Google Fonts -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,300;0,400;0,500;0,700;1,400;1,500;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
     <!-- MDB -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
   </head>
   <body>
     
     {% include 'navbar.html' %}
  
 
-    <div class="mt-5 pt-4">
-      {% if messages %}
-          {% for message in messages %}
-          <div class="container">
-            <div class="alert alert-{{ message.tags }} alert-dismissable">
-              <strong>{{ message }}</strong>
-            </div>
+    {% if messages %}
+      <div class="pt-4 mt-5">
+        {% for message in messages %}
+        <div class="container">
+          <div class="alert alert-{{ message.tags }} alert-dismissable">
+            <strong>{{ message }}</strong>
           </div>
-          {% endfor %}
-      {% endif %}
-    </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     {% block content %}
     {% endblock content %}

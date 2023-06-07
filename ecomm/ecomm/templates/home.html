@@ -2,95 +2,95 @@
 
 <!--Main layout-->
 <main>
-  <div class="container">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607d8b">
-      <!-- Container wrapper -->
-      <div class="container-fluid">
-        <!-- Navbar brand -->
-        <a class="navbar-brand" href="#">Categories:</a>
-
-        <!-- Toggle button -->
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <!-- Link -->
-            <li class="nav-item acitve">
-              <a class="nav-link text-white" href="#">All</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#">Shirts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#">Sport wears</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#">Outwears</a>
-            </li>
-          </ul>
-
-          <!-- Search -->
-          <form class="w-auto py-1" style="max-width: 12rem">
-            <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search" />
-          </form>
+  <div class="container w-100">
+    <div class="my-5 py-3">
+      <h1 class="text-center">
+        Jelajahi beragam <i>kategori</i> kami
+      </h2>
+      <div class="d-flex categories justify-content-center">
+        <div class="rounded-pill m-2 px-3 py-2">
+          <a href="#">Pakaian</a>
         </div>
-      </div>
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
-
-        <!-- Products -->
-        <section>
-            <div class="text-center mb-4">
-              <div class="row">
-                
-                {% for pItem in object_list %}
-                <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card mb-4 h-100 d-flex">
-                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                      data-mdb-ripple-color="light">
-                      <img src="{{ pItem.gambar.url }}" class="card-img card-img-top" style="width:100%;height: 30vh; object-fit:contain;"/>
-                      <a href="{{ pItem.get_absolute_url }}"> 
-                        <div class="mask">
-                          <div class="d-flex justify-content-start align-items-end h-100">
-                            <h5>
-                              {% if pItem.label == 'NEW'%}
-                                <span class="badge badge-info ms-2">{{ pItem.label }}</span></h5>
-                              {% elif pItem.label == 'SALE' %}
-                                <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
-                              {% elif pItem.label != '' %}
-                                <span class="badge badge-warning ms-2">{{ pItem.label }}</span></h5>
-                              {% endif %}
-                          </div>
-                        </div>
-                        <div class="hover-overlay">
-                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                        </div>
-                      </a>
+        <div class="rounded-pill m-2 px-3 py-2">
+          <a href="#">Tas</a>
+        </div>
+        <div class="rounded-pill m-2 px-3 py-2">
+          <a href="#">Sepatu</a>
+        </div>
+        <div class="rounded-pill m-2 px-3 py-2">
+          <a href="#">Aksesoris</a>
+        </div>
+      </div>  
+    </div>
+    
+    <!-- Products -->
+    <section>
+        <div class="text-center my-4">
+          <div class="row">
+            {% for pItem in all %}
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card mb-4 h-100 d-flex py-2">
+                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                  data-mdb-ripple-color="light">
+                  <img src="{{ pItem.gambar.url }}" class="card-img card-img-top" style="width:100%;height: 30vh; object-fit:contain;"/>
+                  <a href="{{ pItem.get_absolute_url }}"> 
+                    <div class="mask">
+                      <div class="d-flex justify-content-start align-items-end h-100">
+                        <h5>
+                          {% if pItem.label == 'SALE'%}
+                            <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
+                          {% elif pItem.label != '' %}
+                            <span class="badge badge-primary ms-2">{{ pItem.label }}</span></h5>
+                          {% endif %}
+                      </div>
                     </div>
-                    <div class="card-body">
-                      <a href="{{ pItem.get_absolute_url }}" class="text-reset">
-                        <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
-                      </a>
-                      <a href="" class="text-reset ">
-                        <p>{{ pItem.get_kategori_display }}</p>
-                      </a>
-                      <h6 class="mb-3 price">{% if pItem.harga_diskon %}Rp {{ pItem.harga_diskon|intcomma }},-{% else %}Rp {{ pItem.harga|intcomma }},-{% endif %}</h6>
+                    <div class="hover-overlay">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                     </div>
-                  </div>
+                  </a>
                 </div>
-                {% empty %}
-                  <p>Data Produk belum tersedia</p>
-                {% endfor %}
-
+                <div class="card-body">
+                  <a href="{{ pItem.get_absolute_url }}" class="text-reset">
+                    <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
+                  </a>
+                  <a href="" class="text-reset ">
+                    <p>{{ pItem.get_kategori_display }}</p>
+                  </a>
+                  <h6 class="mb-3 price">{% if pItem.harga_diskon %}Rp {{ pItem.harga_diskon|intcomma }},-{% else %}Rp {{ pItem.harga|intcomma }},-{% endif %}</h6>
+                </div>
               </div>
             </div>
-          </section>
-        <!-- End Products -->
+            {% empty %}
+              <p>Data Produk belum tersedia</p>
+            {% endfor %}
+          </div>
+
+          <div class="row mt-4">
+            <h1 class="text-center mt-4">SEDANG DISKON</h1>
+            {% for pItem in sale %}
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card mb-4 h-100 d-flex py-2">
+                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                  data-mdb-ripple-color="light">
+                  <img src="{{ pItem.gambar.url }}" class="card-img card-img-top" style="width:100%;height: 30vh; object-fit:contain;"/>
+                </div>
+                <div class="card-body">
+                  <a href="{{ pItem.get_absolute_url }}" class="text-reset">
+                    <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
+                  </a>
+                  <a href="" class="text-reset ">
+                    <p>{{ pItem.get_kategori_display }}</p>
+                  </a>
+                  <h6 class="mb-2 price sale">{{ pItem.harga_diskon }}</h6>
+                  <p class="text-decoration-line-through mt-0">{{ pItem.harga }}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    <!-- End Products -->
 
     <!-- Pagination -->
     {% if is_paginated %}
