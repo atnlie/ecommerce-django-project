@@ -8,9 +8,14 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.views import generic
 from paypal.standard.forms import PayPalPaymentsForm
+<<<<<<< HEAD
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+=======
+from django.contrib.auth.views import redirect_to_login
+
+>>>>>>> all_auth
 from .forms import CheckoutForm, ProdukReviewForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, ProdukImages
 
@@ -28,6 +33,7 @@ class KategoriListView(generic.ListView):
         }
         return render(self.req, 'home.html', context)
 
+<<<<<<< HEAD
 def HomeListView(req):
     # template_name = "home.html"
     produk = ProdukItem.objects.all()
@@ -40,6 +46,11 @@ def HomeListView(req):
         'sale' : sale,
         'new' : new,
     }
+=======
+class HomeListView(generic.ListView):
+    template_name = "home.html"
+    queryset = ProdukItem.objects.all()
+>>>>>>> all_auth
     paginate_by = 4
     return render(req, "home.html", context)
 
@@ -67,10 +78,17 @@ class ProductDetailView(generic.DetailView):
                     review.user = AnonymousUser()
                 review.produk = self.object
                 review.save()
+<<<<<<< HEAD
                 messages.success(request, "Ulasan berhasil ditambahkan")
                 return HttpResponseRedirect(request.path)
             else:
                 messages.error(request, "Gagal menambahkan ulasan")
+=======
+                messages.success(request, "Ulasan berhasil ditambahkan.")
+                return HttpResponseRedirect(request.path)
+            else:
+                messages.error(request, "Gagal menambahkan ulasan.")
+>>>>>>> all_auth
                 return self.render_to_response(self.get_context_data(form=form))
         else:
             return redirect("/accounts/login/?next=" + self.request.path)
@@ -83,7 +101,11 @@ class ProductDetailView(generic.DetailView):
         return redirect("/accounts/login/?next=" + self.request.path)
 
 class KontakView(generic.TemplateView):
+<<<<<<< HEAD
     template_name = "kontak.html"
+=======
+    template_name = "footer.html"
+>>>>>>> all_auth
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
     def get(self, *args, **kwargs):
@@ -221,12 +243,20 @@ def add_to_cart(request, slug):
             produk_item=produk_item, 
             user=request.user, 
             ordered=False
+<<<<<<< HEAD
         )
         order_query = Order.objects.filter(
             user=request.user, 
             ordered=False
         )
 
+=======
+        )
+        order_query = Order.objects.filter(
+            user=request.user, 
+            ordered=False
+        )
+>>>>>>> all_auth
         if order_query.exists():
             order = order_query[0]
 
@@ -235,17 +265,23 @@ def add_to_cart(request, slug):
                 order_produk_item.save()
                 pesan = f"Produk item sudah diupdate menjadi: {order_produk_item.quantity}"
                 messages.info(request, pesan)
-                return redirect("toko:order-summary")
             else:
                 order.produk_items.add(order_produk_item)
                 messages.info(request, "Produk item pilihanmu sudah ditambahkan")
+<<<<<<< HEAD
                 return redirect("toko:produk-detail", slug=slug)
+=======
+>>>>>>> all_auth
         else:
             tanggal_order = timezone.now()
             order = Order.objects.create(
                 user=request.user, 
+<<<<<<< HEAD
                 tanggal_order=tanggal_order
             )
+=======
+                tanggal_order=tanggal_order)
+>>>>>>> all_auth
             order.produk_items.add(order_produk_item)
             messages.info(request, "Produk item pilihanmu sudah ditambahkan")
         total_produk = order.produk_items.count()
@@ -277,13 +313,23 @@ def remove_single_item_from_cart(request, slug):
                 else:
                     order.produk_items.remove(order_produk_item)
                 messages.info(request, "Produk item dihapus dari keranjang")
+<<<<<<< HEAD
+=======
+                return redirect("toko:order-summary")
+            else:
+                messages.info(request, "Produk item tidak ada")
+>>>>>>> all_auth
                 return redirect("toko:order-summary")
             else:
                 messages.info(request, "Produk item tidak ada")
                 return redirect("toko:produk-detail", slug=slug)
         else:
             messages.info(request, "Tidak ada order yang aktif")
+<<<<<<< HEAD
             return redirect("toko:produk-detail")
+=======
+            return redirect("toko:order-summary")
+>>>>>>> all_auth
     else:
         return redirect("/accounts/login")
 
@@ -296,11 +342,16 @@ def remove_from_cart(request, slug):
             
             if order.produk_items.filter(produk_item__slug=produk_item.slug).exists():
                 order_produk_item = OrderProdukItem.objects.filter(
+<<<<<<< HEAD
                         produk_item=produk_item, 
                         user=request.user, 
                         ordered=False
                     ).first()
                 
+=======
+                        produk_item=produk_item, user=request.user, ordered=False
+                    ).first()
+>>>>>>> all_auth
                 order.produk_items.remove(order_produk_item)
                 order_produk_item.delete()
                 pesan = "Semua produk item dihapus dari keranjang"
@@ -352,6 +403,7 @@ def paypal_cancel(request):
     messages.error(request, "Pembayaran dibatalkan")
     return redirect("toko:order-summary")
 
+<<<<<<< HEAD
 def stripe_success(request):
     if request.user.is_authenticated:
         try:
@@ -386,4 +438,6 @@ def stripe_cancel(request):
     messages.error(request, "Pembayaran dibatalkan")
     return redirect("toko:checkout")
 
+=======
+>>>>>>> all_auth
 
