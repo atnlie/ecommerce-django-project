@@ -28,6 +28,7 @@ h3, h4, h5, h6{
     font-family: Lora, sans-serif;
     font-weight: 500;
 }
+
 .navbar-container{
     margin: 0;
     width: 100%;
@@ -41,7 +42,7 @@ h3, h4, h5, h6{
 }
 
 .carousel .carousel-item{
-  height: 30vh;
+  height: 400px;
 }
 
 .carousel-item img{
@@ -49,7 +50,7 @@ h3, h4, h5, h6{
   object-fit: cover;
   top: 0;
   left: 0;
-  min-height: 30vh;
+  min-height: 400px;
 }
 
 div.categories div{
