@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %} {% include 'carousel.html' %}
+{% extends 'base.html' %} {% load humanize %} {% block content %} {% include 'carousel.html' %}
 
 <!--Main layout-->
 <main>
@@ -56,7 +56,7 @@
                   <a href="" class="text-reset ">
                     <p>{{ pItem.get_kategori_display }}</p>
                   </a>
-                  <h6 class="mb-3 price">${% if pItem.harga_diskon %}{{ pItem.harga_diskon }}{% else %}{{ pItem.harga }}{% endif %}</h6>
+                  <h6 class="mb-3 price">{% if pItem.harga_diskon %}Rp {{ pItem.harga_diskon|intcomma }},-{% else %}Rp {{ pItem.harga|intcomma }},-{% endif %}</h6>
                 </div>
               </div>
             </div>
