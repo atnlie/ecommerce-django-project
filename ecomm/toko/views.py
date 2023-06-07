@@ -40,7 +40,6 @@ class HomeListView(generic.ListView):
         context['sale'] = ProdukItem.objects.filter(label='SALE')
         return context
     
-    
 class ProductDetailView(generic.DetailView):
     template_name = "product_detail.html"
     queryset = ProdukItem.objects.all()
