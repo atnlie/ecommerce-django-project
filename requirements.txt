@@ -4,3 +4,4 @@ Django==4.2
 django-environ==0.10.0
 Pillow==9.5.0
 sqlparse==0.4.3
+stripe==2.60.0

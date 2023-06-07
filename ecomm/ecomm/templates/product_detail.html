@@ -119,9 +119,9 @@
               <h6>{{ review.nama }} pada {{review.publish }}</h6>
               <h6>Rating {{ review.rating }} / 5</h6>
               <p class="my-0">{{ review.komentar|linebreaks }}</p>
-              <hr>
+              <hr />
             </div>
-            
+
             {% endfor %} {% else %}
             <p>Tidak ada ulasan terkait produk</p>
             {% endif %}
