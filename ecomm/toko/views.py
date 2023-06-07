@@ -33,24 +33,9 @@ class KategoriListView(generic.ListView):
         }
         return render(self.req, 'home.html', context)
 
-<<<<<<< HEAD
-def HomeListView(req):
-    # template_name = "home.html"
-    produk = ProdukItem.objects.all()
-    best = ProdukItem.objects.filter(label = 'BEST')
-    new = ProdukItem.objects.filter(label = 'NEW')
-    sale = ProdukItem.objects.filter(label = 'SALE')
-    context = {
-        'all' : produk,
-        'best': best,
-        'sale' : sale,
-        'new' : new,
-    }
-=======
 class HomeListView(generic.ListView):
     template_name = "home.html"
     queryset = ProdukItem.objects.all()
->>>>>>> all_auth
     paginate_by = 4
     return render(req, "home.html", context)
 
@@ -101,11 +86,7 @@ class ProductDetailView(generic.DetailView):
         return redirect("/accounts/login/?next=" + self.request.path)
 
 class KontakView(generic.TemplateView):
-<<<<<<< HEAD
-    template_name = "kontak.html"
-=======
     template_name = "footer.html"
->>>>>>> all_auth
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
     def get(self, *args, **kwargs):

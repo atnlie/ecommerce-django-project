@@ -111,15 +111,15 @@ WSGI_APPLICATION = 'ecomm.wsgi.application'
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'trial',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': '12345',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -203,9 +203,9 @@ if DEBUG is False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'trial',
+            'NAME': 'postgres',
             'USER': 'postgres',
-            'PASSWORD': '12345',
+            'PASSWORD': 'pregr3s',
             'HOST': 'localhost',
             'PORT': '5432',
         }
