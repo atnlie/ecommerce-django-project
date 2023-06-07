@@ -47,7 +47,6 @@ class ProdukItem(models.Model):
     detail_produk = models.TextField(null=True)
     gambar = models.ImageField(upload_to='product_pics')
     label = models.CharField(choices=PILIHAN_LABEL, max_length=11)
-    #kategori = models.ForeignKey(Kategori, on_delete=models.CASCADE)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
     
     @property
