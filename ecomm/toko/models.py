@@ -79,10 +79,10 @@ class ProdukItem(models.Model):
 
 class ProdukImages(models.Model):
     produk = models.ForeignKey(ProdukItem, related_name="p_images", on_delete=models.SET_NULL, null=True)
-    images = models.ImageField(upload_to='product-images',default="product.jpg")
+    images = models.ImageField(upload_to='product-images',default="produk.jpg")
 
     class Meta :
-        verbose_name_plural =  "Product Images"
+        verbose_name_plural =  "Gambar Produk"
 
     def __str__(self):
         return f"Gambar Produk {self.produk}"
@@ -128,7 +128,7 @@ class ProdukReview(models.Model):
         ordering = ("publish",)
 
     def __str__(self):
-        return f"Comment by {self.nama}"
+        return f"Ulasan oleh {self.nama}"
     
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
