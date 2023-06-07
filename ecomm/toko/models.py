@@ -8,7 +8,11 @@ import datetime
 PILIHAN_KATEGORI = (
     ('S', 'Shirt'),
     ('SW', 'Sport wear'),
-    ('OW', 'Outwear')
+    ('OW', 'Outwear'),
+    ('pakaian', 'Pakaian'),
+    ('sepatu', 'Sepatu'),
+    ('tas', 'Tas'),
+    ('aksesoris', 'Aksesoris'),
 )
 
 PILIHAN_LABEL = (
@@ -33,7 +37,7 @@ PILIHAN_RATING = (
 User = get_user_model()
 
 class Kategori(models.Model):
-    nama_kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
+    nama_kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=9)
     slug = models.SlugField(unique=True)
     def __str__(self):
         return self.nama_kategori
@@ -48,7 +52,7 @@ class ProdukItem(models.Model):
     gambar = models.ImageField(upload_to='product_pics')
     label = models.CharField(choices=PILIHAN_LABEL, max_length=11)
     #kategori = models.ForeignKey(Kategori, on_delete=models.CASCADE)
-    kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=2)
+    kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=9)
     
     @property
     def pid(self):

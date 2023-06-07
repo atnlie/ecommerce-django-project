@@ -38,11 +38,11 @@
                     PRODUK
                 </a>
                 <div class="dropdown-menu p-2" aria-labelledby="navbarDropdownProduk">
-                    <a href="#" class="dropdown-item">Semua</a>
-                    <a href="#" class="dropdown-item">Pakaian</a>
-                    <a href="#" class="dropdown-item">Tas</a>
-                    <a href="#" class="dropdown-item">Sepatu</a>
-                    <a href="#" class="dropdown-item">Aksesoris</a>
+                    <a href="{% url 'toko:produk-list' kategori='all'%}" class="dropdown-item">Semua</a>
+                    <a href="{% url 'toko:produk-list' kategori='pakaian' %}" class="dropdown-item">Pakaian</a>
+                    <a href="{% url 'toko:produk-list' kategori='tas' %}" class="dropdown-item">Tas</a>
+                    <a href="{% url 'toko:produk-list' kategori='sepatu' %}" class="dropdown-item">Sepatu</a>
+                    <a href="{% url 'toko:produk-list' kategori='aksesoris' %}" class="dropdown-item">Aksesoris</a>
                 </div>
             </li>
             <li class="nav-item">

@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% load humanize %} {% block content %} 
+
+<main>
+    <div class="container w-100">
+        <div class="text-center my-4">
+            <div class="row">
+              {% for pItem in items %}
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card mb-4 h-100 d-flex py-2">
+                  <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                    data-mdb-ripple-color="light">
+                    <img src="{{ pItem.gambar.url }}" class="card-img card-img-top" style="width:100%;height: 30vh; object-fit:contain;"/>
+                    <a href="{{ pItem.get_absolute_url }}"> 
+                      <div class="mask">
+                        <div class="d-flex justify-content-start align-items-end h-100">
+                          <h5>
+                            {% if pItem.label == 'SALE'%}
+                              <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
+                            {% elif pItem.label != '' %}
+                              <span class="badge badge-primary ms-2">{{ pItem.label }}</span></h5>
+                            {% endif %}
+                        </div>
+                      </div>
+                      <div class="hover-overlay">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <a href="{{ pItem.get_absolute_url }}" class="text-reset">
+                      <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
+                    </a>
+                    <a href="" class="text-reset ">
+                      <p>{{ pItem.get_kategori_display }}</p>
+                    </a>
+                    <h6 class="mb-3 price">{% if pItem.harga_diskon %}Rp {{ pItem.harga_diskon|intcomma }},-{% else %}Rp {{ pItem.harga|intcomma }},-{% endif %}</h6>
+                  </div>
+                </div>
+            </div>
+              {% empty %}
+                <p>Data Produk belum tersedia</p>
+              {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock content%}

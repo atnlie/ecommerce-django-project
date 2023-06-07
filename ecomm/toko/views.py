@@ -13,19 +13,18 @@ from django.contrib.auth.views import redirect_to_login
 from .forms import CheckoutForm, ProdukReviewForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, ProdukImages
 
-class KategoriListView(generic.ListView):
-    def get(req, nama_kategori):
-        if (nama_kategori == 'all'):
-            nama = ''
-            produk = ProdukItem.objects.all()
-        else:
-            nama = Kategori.objects.get(slug = nama_kategori)
-            produk = ProductItem.objects.filter(kategori = nama)
-        paginate_by = 4
-        context = {
-            'items' : produk
-        }
-        return render(self.req, 'home.html', context)
+def KategoriListView(req, kategori):
+    print(kategori)
+    if (kategori == 'all'):
+        produk = ProdukItem.objects.all()
+    else:
+        produk = ProdukItem.objects.filter(kategori = kategori)
+    paginate_by = 4
+    context = {
+        'items' : produk,
+        'kategori' : kategori,
+    }
+    return render(req, 'produk.html', context)
 
 def hapus_produk(request, item_id):
     item = get_object_or_404(ProdukItem, id=item_id)
