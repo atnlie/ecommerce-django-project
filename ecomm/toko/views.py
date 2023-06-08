@@ -10,7 +10,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-from .forms import CheckoutForm, ProdukReviewForm
+from .forms import CheckoutForm, ProdukReviewForm, KontakForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, ProdukImages
 
 class KategoriListView(generic.ListView):
@@ -81,6 +81,20 @@ class ProductDetailView(generic.DetailView):
 
 class KontakView(generic.TemplateView):
     template_name = "kontak.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = KontakForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = KontakForm(request.POST)
+        if form.is_valid():
+            messages.info(self.request, "Pesan Anda telah Kami Terima")
+            return redirect("toko:kontak")
+        else:
+            messages.warning(self.request, "Mohon ini kembali data dengan benar")
+            return redirect("toko:kontak")
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
     def get(self, *args, **kwargs):
