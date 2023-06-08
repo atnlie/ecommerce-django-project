@@ -9,16 +9,16 @@
       </h2>
       <div class="d-flex categories justify-content-center">
         <div class="rounded-pill m-2 px-3 py-2">
-          <a href="#">Pakaian</a>
+          <a href="{% url 'toko:produk-list' kategori='semua'%}">Pakaian</a>
         </div>
         <div class="rounded-pill m-2 px-3 py-2">
-          <a href="#">Tas</a>
+          <a href="{% url 'toko:produk-list' kategori='tas'%}">Tas</a>
         </div>
         <div class="rounded-pill m-2 px-3 py-2">
-          <a href="#">Sepatu</a>
+          <a href="{% url 'toko:produk-list' kategori='sepatu'%}">Sepatu</a>
         </div>
         <div class="rounded-pill m-2 px-3 py-2">
-          <a href="#">Aksesoris</a>
+          <a href="{% url 'toko:produk-list' kategori='aksesoris'%}">Aksesoris</a>
         </div>
       </div>  
     </div>
