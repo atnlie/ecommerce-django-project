@@ -72,3 +72,11 @@ div.categories div:hover{
     text-decoration: line-through;
     font-size: 12px;
 }
+
+p,a,button{
+    font-size: 18px;
+}
+
+.produkSubjudul{
+    font-size: 24px;
+}

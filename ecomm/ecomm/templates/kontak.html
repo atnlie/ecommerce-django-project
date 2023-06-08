@@ -1,14 +1,13 @@
-{% load static %}{% extends 'base.html' %} {% block content %} 
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <main class="my-5" style="background-image: url()">
   <div class="container w-100 card" style="margin-top: 4vw">
     <div class="row p-4">
       <section class="col-md-6">
         <div class="flex-column">
-                    <img src="{%static 'img/logo.jpg'%}"" class="d-block w-100"/>
-                    <h2>Voguetage</h2>
-                    <p>Pusat <i>fashion vintage</i> wanita Indonesia.</p>
-                    <p>Kini dapat diakses dari mana saja!</p>
+                    <img src="{%static 'img/logo.png'%}"" class="d-block w-100"/>
+                    <h2 class="my-3">Voguetage</h2>
+                    <p>Pusat <i>fashion vintage</i> wanita Indonesia</p>
           </div>
         </section>
         <section class="col-md-6">
@@ -22,4 +21,4 @@
     </div>
   </div>
 </main>
-{% endblock content%}
+{% endblock content %}
