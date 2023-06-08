@@ -24,7 +24,7 @@ h1{
 h2{
     font-weight: 700;
 }
-h3, h4, h5, h6{
+h3, h4, h5, h6, th{
     font-family: Lora, sans-serif;
     font-weight: 500;
 }
@@ -73,7 +73,7 @@ div.categories div:hover{
     font-size: 12px;
 }
 
-p,a,button{
+p,a,button,td,th{
     font-size: 18px;
 }
 

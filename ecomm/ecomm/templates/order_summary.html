@@ -5,8 +5,8 @@
       <h1 class="text-center">Order Summary</h1>
     </div>
   </div>
-  <table class="table align-middle mb-0 bg-white">
-    <thead class="bg-light">
+  <table class="table align-middle mb-0">
+    <thead class="bg-white">
       <tr>
         <th>No.</th>
         <th>Nama Produk</th>
@@ -26,7 +26,7 @@
               <img
                 src="{{ pItem.produk_item.gambar.url }}"
                 alt=""
-                style="width: 45px; height: 45px"
+                style="width: 45px; height: 45px; object-fit:cover;"
                 class="rounded-circle" />
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ pItem.produk_item.nama_produk }}</p>
@@ -41,11 +41,11 @@
         <td>
           <a
             href="{% url 'toko:remove-single-item-from-cart' pItem.produk_item.slug %}">
-            <i class="fas fa-minus" style="margin-right: 2px"></i>
+            <i class="fas fa-minus" style="margin-right: 5px;"></i>
           </a>
           {{ pItem.quantity }}
           <a href="{% url 'toko:add-to-cart' pItem.produk_item.slug %}">
-            <i class="fas fa-plus" style="margin-left: 2px"></i>
+            <i class="fas fa-plus" class="ml-3"></i>
           </a>
         </td>
         <td>
@@ -90,13 +90,13 @@
 
         <td>
           <a
-            class="btn btn-warning float-start"
+            class="btn btn-lg btn-warning float-start"
             href="{% url 'toko:checkout' %}"
             >Checkout</a
           ></td>
         <td colspan="5">
           <a
-            class="btn btn-danger float-end mr-2"
+            class="btn btn-lg btn-danger float-end mr-2"
             href="{% url 'toko:home-produk-list' %}"
             >Lanjut belanja</a
           >
