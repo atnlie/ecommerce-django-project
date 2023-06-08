@@ -8,8 +8,8 @@ import datetime
 PILIHAN_KATEGORI = (
     ('P', 'Pakaian'),
     ('S', 'Sepatu'),
-    ('A', 'Tas'),
-    ('T', 'Aksesoris'),
+    ('T', 'Tas'),
+    ('A', 'Aksesoris'),
 )
 
 PILIHAN_LABEL = (
