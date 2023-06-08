@@ -34,7 +34,8 @@ APPEND_SLASH = False
 DEBUG = env('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
-
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 500 
 
 # Application definition
 
@@ -72,10 +73,10 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -205,7 +206,7 @@ if DEBUG is False:
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'postgres',
             'USER': 'postgres',
-            'PASSWORD': 'pregr3s',
+            'PASSWORD': '12345',
             'HOST': 'localhost',
             'PORT': '5432',
         }

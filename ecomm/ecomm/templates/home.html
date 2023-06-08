@@ -27,7 +27,7 @@
     <section>
         <div class="text-center my-4">
           <div class="row">
-            {% for pItem in all %}
+            {% for pItem in object_list %}
             <div class="col-lg-3 col-md-6 mb-4">
               <div class="card mb-4 h-100 d-flex py-2">
                 <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
@@ -37,11 +37,13 @@
                     <div class="mask">
                       <div class="d-flex justify-content-start align-items-end h-100">
                         <h5>
-                          {% if pItem.label == 'SALE'%}
-                            <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
-                          {% elif pItem.label != '' %}
-                            <span class="badge badge-primary ms-2">{{ pItem.label }}</span></h5>
-                          {% endif %}
+                          {% if pItem.label == 'NEW'%}
+                                <span class="badge badge-info ms-2">{{ pItem.label }}</span></h5>
+                              {% elif pItem.label == 'SALE' %}
+                                <span class="badge badge-danger ms-2">{{ pItem.label }}</span></h5>
+                              {% elif pItem.label != '' %}
+                                <span class="badge badge-warning ms-2">{{ pItem.label }}</span></h5>
+                              {% endif %}
                       </div>
                     </div>
                     <div class="hover-overlay">
@@ -49,7 +51,7 @@
                     </div>
                   </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body">     
                   <a href="{{ pItem.get_absolute_url }}" class="text-reset">
                     <h5 class="card-title mb-2">{{ pItem.nama_produk }}</h5>
                   </a>
@@ -67,7 +69,8 @@
 
           <div class="row mt-4">
             <h1 class="text-center mt-4">SEDANG DISKON</h1>
-            {% for pItem in sale %}
+            {% for pItem in object_list %}
+            {% if pItem.harga_diskon %}
             <div class="col-lg-3 col-md-6 mb-4">
               <div class="card mb-4 h-100 d-flex py-2">
                 <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
@@ -81,12 +84,13 @@
                   <a href="" class="text-reset ">
                     <p>{{ pItem.get_kategori_display }}</p>
                   </a>
-                  <h6 class="mb-2 price sale">{{ pItem.harga_diskon }}</h6>
-                  <p class="text-decoration-line-through mt-0">{{ pItem.harga }}</p>
+                  <h6 class="mb-2 price sale">Rp {{ pItem.harga_diskon|intcomma }},-</h6>
+                  <p class="text-decoration-line-through mt-0">Rp {{ pItem.harga|intcomma }},-</p>
                 </div>
               </div>
             </div>
-            {% endfor %}
+            {% endif %}
+          {% endfor %}
           </div>
         </div>
       </section>

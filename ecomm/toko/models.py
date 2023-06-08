@@ -6,9 +6,6 @@ from django.urls import reverse
 import datetime
 
 PILIHAN_KATEGORI = (
-    ('S', 'Shirt'),
-    ('SW', 'Sport wear'),
-    ('OW', 'Outwear'),
     ('pakaian', 'Pakaian'),
     ('sepatu', 'Sepatu'),
     ('tas', 'Tas'),
@@ -36,12 +33,6 @@ PILIHAN_RATING = (
 
 User = get_user_model()
 
-class Kategori(models.Model):
-    nama_kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=9)
-    slug = models.SlugField(unique=True)
-    def __str__(self):
-        return self.nama_kategori
-
 class ProdukItem(models.Model):
     nama_produk = models.CharField(max_length=100)
     harga = models.IntegerField()
@@ -51,7 +42,6 @@ class ProdukItem(models.Model):
     detail_produk = models.TextField(null=True)
     gambar = models.ImageField(upload_to='product_pics')
     label = models.CharField(choices=PILIHAN_LABEL, max_length=11)
-    #kategori = models.ForeignKey(Kategori, on_delete=models.CASCADE)
     kategori = models.CharField(choices=PILIHAN_KATEGORI, max_length=9)
     
     @property
@@ -122,7 +112,7 @@ class OrderProdukItem(models.Model):
 class ProdukReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     produk = models.ForeignKey(ProdukItem, on_delete=models.CASCADE, related_name='reviews')
-    nama = models.CharField(max_length=50, default='Anonymous')
+    nama = models.CharField(max_length=50)
     komentar = models.TextField()
     publish = models.DateTimeField(default=datetime.datetime.now)
     status = models.BooleanField(default=True)
@@ -133,6 +123,19 @@ class ProdukReview(models.Model):
 
     def __str__(self):
         return f"Ulasan oleh {self.nama}"
+    
+class Kontak(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    nama = models.CharField(max_length=100)
+    email = models.EmailField()
+    pesan = models.TextField()
+    tanggal = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nama
+
+    class Meta:
+        verbose_name_plural = "Kontak"
     
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
