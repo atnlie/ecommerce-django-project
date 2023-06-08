@@ -6,10 +6,10 @@ from django.urls import reverse
 import datetime
 
 PILIHAN_KATEGORI = (
-    ('pakaian', 'Pakaian'),
-    ('sepatu', 'Sepatu'),
-    ('tas', 'Tas'),
-    ('aksesoris', 'Aksesoris'),
+    ('P', 'Pakaian'),
+    ('S', 'Sepatu'),
+    ('A', 'Tas'),
+    ('T', 'Aksesoris'),
 )
 
 PILIHAN_LABEL = (

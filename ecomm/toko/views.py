@@ -14,11 +14,17 @@ from .forms import CheckoutForm, ProdukReviewForm, KontakForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, ProdukImages
 
 def KategoriListView(req, kategori):
+    _mapKategori = {
+        'pakaian': 'P',
+        'sepatu': 'S',
+        'aksesoris': 'A',
+        'tas': 'T'
+    }
     print(kategori)
     if (kategori == 'semua'):
         produk = ProdukItem.objects.all()
     else:
-        produk = ProdukItem.objects.filter(kategori = kategori)
+        produk = ProdukItem.objects.filter(kategori = _mapKategori[kategori])
     paginate_by = 4
     context = {
         'items' : produk,
