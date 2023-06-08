@@ -3,18 +3,20 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.views import generic
 from paypal.standard.forms import PayPalPaymentsForm
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 from .forms import CheckoutForm, ProdukReviewForm, KontakForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment, ProdukImages
 
+@login_required
 class KategoriListView(generic.ListView):
-    def get(req, nama_kategori):
+    def get(request, nama_kategori):
         if (nama_kategori == 'all'):
             nama = ''
             produk = ProdukItem.objects.all()
@@ -25,7 +27,7 @@ class KategoriListView(generic.ListView):
         context = {
             'items' : produk
         }
-        # return render(self.req, 'home.html', context)
+        return render(request, 'home.html', context)
 
 class HomeListView(generic.ListView):
     template_name = "home.html"
@@ -39,44 +41,32 @@ class HomeListView(generic.ListView):
         context['new'] = ProdukItem.objects.filter(label='NEW')
         context['sale'] = ProdukItem.objects.filter(label='SALE')
         return context
-    
-class ProductDetailView(generic.DetailView):
+
+class ProductDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "product_detail.html"
     queryset = ProdukItem.objects.all()
 
     def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['review_form'] = ProdukReviewForm()
-            context['reviews'] = self.object.reviews.all()
-            context['p_images'] = ProdukImages.objects.filter(produk=self.object)
-            return context
-      
-    def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            self.object = self.get_object()
-            form = ProdukReviewForm(request.POST)
-            if form.is_valid():
-                review = form.save(commit=False)
-                if request.user.is_authenticated:
-                    review.user = request.user
-                else:
-                    # Handle anonymous user
-                    review.user = AnonymousUser()
-                review.produk = self.object
-                review.save()
-                messages.success(request, "Ulasan berhasil ditambahkan")
-                return HttpResponseRedirect(request.path)
-            else:
-                messages.error(request, "Gagal menambahkan ulasan")
-                return self.render_to_response(self.get_context_data(form=form))
-        else:
-            return redirect("/accounts/login/?next=" + self.request.path)
-    
-    def handle_success(self, request):
-        next_url = self.request.get_full_path()
-        return redirect(next_url)
+        context = super().get_context_data(**kwargs)
+        context['review_form'] = ProdukReviewForm()
+        context['reviews'] = self.object.reviews.all()
+        context['p_images'] = ProdukImages.objects.filter(produk=self.object)
+        return context
 
-    def handle_authentication(self):
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ProdukReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.produk = self.object
+            review.save()
+            messages.success(request, "Ulasan berhasil ditambahkan")
+        else:
+            messages.error(request, "Gagal menambahkan ulasan")
+        return redirect(request.path)
+
+    def handle_no_permission(self):
         return redirect("/accounts/login/?next=" + self.request.path)
 
 class KontakView(generic.TemplateView):
@@ -153,7 +143,6 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
             messages.error(self.request, "Tidak ada pesanan yang aktif")
             return redirect("toko:order-summary")
 
-
 class PaymentView(LoginRequiredMixin, generic.FormView):
     template_name = "payment.html"
     
@@ -190,7 +179,8 @@ class PaymentView(LoginRequiredMixin, generic.FormView):
 
         except ObjectDoesNotExist:
             return redirect("toko:checkout")
-    
+        
+@login_required    
 def checkout_stripe(request):
             order = Order.objects.get(user=request.user, ordered=False)
             price = int(order.get_total_harga_order() * 100)
@@ -225,6 +215,7 @@ class OrderSummaryView(LoginRequiredMixin, generic.TemplateView):
             messages.error(self.request, "Tidak ada pesanan yang aktif")
             return redirect("toko:produk-detail")
 
+@login_required 
 def add_to_cart(request, slug):
     if request.user.is_authenticated:
         produk_item = get_object_or_404(ProdukItem, slug=slug)
@@ -263,7 +254,8 @@ def add_to_cart(request, slug):
         return redirect("toko:order-summary")
     else:
         return redirect("/accounts/login")
-        
+
+@login_required        
 def remove_single_item_from_cart(request, slug):
     if request.user.is_authenticated:
         produk_item = get_object_or_404(ProdukItem, slug=slug)
@@ -297,6 +289,7 @@ def remove_single_item_from_cart(request, slug):
     else:
         return redirect("/accounts/login")
 
+@login_required 
 def remove_from_cart(request, slug):
     if request.user.is_authenticated:
         produk_item = get_object_or_404(ProdukItem, slug=slug)
@@ -324,8 +317,8 @@ def remove_from_cart(request, slug):
             return redirect("toko:produk-detail")
     else:
         return redirect("/accounts/login")
-    
-# @csrf_exempt
+
+@csrf_exempt   
 def paypal_return(request):
     if request.user.is_authenticated:
         try:
@@ -356,12 +349,12 @@ def paypal_return(request):
     else:
         return redirect("/accounts/login")
 
-
-# @csrf_exempt
+@csrf_exempt
 def paypal_cancel(request):
     messages.error(request, "Pembayaran dibatalkan")
     return redirect("toko:order-summary")
 
+@csrf_exempt
 def stripe_success(request):
     if request.user.is_authenticated:
         try:
@@ -391,7 +384,7 @@ def stripe_success(request):
     else:
         return redirect("/accounts/login")
 
-
+@csrf_exempt
 def stripe_cancel(request):
     messages.error(request, "Pembayaran dibatalkan")
     return redirect("toko:checkout")
