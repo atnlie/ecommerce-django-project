@@ -1,4 +1,4 @@
-{% load cart_template_tags %}
+{% load cart_template_tags %} {% load static %}
 
 <!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white w-100 p-2 px-md-3">
@@ -22,8 +22,9 @@
         <!-- Navbar brand -->
         <a class="navbar-brand mt-2 mt-sm-0" href="#">
             <img
-            src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-            height="20"
+            src="{% static 'img/icon.png' %}"
+            //src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+            height="26"
             alt="MDB Logo"
             loading="lazy"
             />
@@ -59,9 +60,9 @@
         <!-- Right elements -->
         <div class="ms-auto">
             <div class="d-flex align-items-center">
-                <form class="w-auto py-1 d-inline" style="max-width: 12rem">
+                <!-- <form class="w-auto py-1 d-inline" style="max-width: 12rem">
                     <input type="search" class="form-control rounded-0" placeholder="Search" aria-label="Search" />
-                </form>
+                </form> -->
                 {% if request.user.is_authenticated %}
                     <!-- Icon -->
                     <a class="nav-link ms-4" href="{% url 'toko:order-summary' %}">
