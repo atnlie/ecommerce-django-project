@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nama_produk', models.CharField(max_length=100)),
-                ('harga', models.FloatField()),
-                ('harga_diskon', models.FloatField(blank=True, null=True)),
+                ('harga', models.IntegerField()),
+                ('harga_diskon', models.IntegerField(blank=True, null=True)),
                 ('slug', models.SlugField(unique=True)),
                 ('deskripsi', models.TextField()),
                 ('gambar', models.ImageField(upload_to='product_pics')),

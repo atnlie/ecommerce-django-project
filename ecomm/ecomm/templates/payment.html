@@ -1,22 +1,33 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% load humanize %} {% block content %}
 
 <div class="container">
   <div class="d-flex justify-content-center">
     <div class="row justify-content-center">
       <div class="col pt-5 pb-5">
-        <p>Total belanjaan kamu : <strong>${{ order.get_total_harga_order }}</strong></p>
+        <p>
+          Total belanjaan kamu :
+          <strong>Rp {{ order.get_total_harga_order|intcomma}},- </strong>
+        </p>
         <br />
         {% if is_paypal %}
         <div>{{ paypalform.render }}</div>
         {% else %}
-        <div>Pembayaran Strip belum diaktifkan gunakan Paypal</div>
-        <a href="{% url 'toko:payment' 'paypal' %}"><div class="btn btn-info">Paypal</div></a>
+        <section>
+          <form action="{% url 'toko:checkout-stripe' %}" method="POST">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center">
+              <button
+                type="submit"
+                id="stripe-button"
+                class="btn btn-info btn-round">
+                Pay Now
+              </button>
+            </div>
+          </form>
+        </section>
         {% endif %}
       </div>
     </div>
   </div>
 </div>
-
 {% endblock content %}

@@ -3,57 +3,92 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-    <title>e-commerce {% block head_title %}{% endblock %}</title>
-    {% block extra_head %}
-    {% endblock %}
+    <title>Voguetage{% block head_title %}{% endblock %}</title>
+    {% block extra_head %} {% endblock %}
 
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  
+
     <!-- MDB icon -->
-    <link rel="icon" href="{% static 'img/mdb-favicon.ico' %}" type="image/x-icon" />
+    <link
+      rel="icon"
+      href="{% static 'img/favicon.png' %}"
+      type="image/x-icon" />
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <!-- Google Fonts Roboto -->
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-    />
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,300;0,400;0,500;0,700;1,400;1,500;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet" />
+
     <!-- MDB -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}" />
   </head>
   <body>
-    
     {% include 'navbar.html' %}
- 
+    <style>
+      .alert-dismissable {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    <div class="mt-5 pt-4">
-      {% if messages %}
-          {% for message in messages %}
-          <div class="container">
-            <div class="alert alert-{{ message.tags }} alert-dismissable">
-              <strong>{{ message }}</strong>
-            </div>
-          </div>
-          {% endfor %}
-      {% endif %}
+      .alert-dismissable .close {
+        margin-left: auto;
+      }
+    </style>
+    {% if messages %}
+    <div class="pt-4 mt-5">
+      {% for message in messages %}
+      <div class="container">
+        <div class="alert alert-{{ message.tags }} alert-dismissable">
+          <strong>{{ message }}</strong>
+          <a
+            href="#"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            onclick="removeMessage(this)">
+            &times;
+          </a>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+    {% endif %}
 
-    {% block content %}
-    {% endblock content %}
-    
-    {% include 'footer.html' %}
-  
-    {% include 'scripts.html' %}
+    <script>
+      function removeMessage(element) {
+        const alertElement = element.parentNode;
+        alertElement.parentNode.removeChild(alertElement);
+      }
+      // Hapus pesan setelah beberapa detik
+      setTimeout(function () {
+        const alerts = document.querySelectorAll(".alert-dismissable");
+        alerts.forEach(function (alert) {
+          alert.parentNode.removeChild(alert);
+        });
+      }, 5000);
+    </script>
 
-    {% block scripts %}
-    {% endblock scripts %}
-
+    {% block content %} {% endblock content %} {% include 'footer.html' %}
+    {% include 'scripts.html' %} {% block scripts %} {% endblock scripts %}
   </body>
 </html>
